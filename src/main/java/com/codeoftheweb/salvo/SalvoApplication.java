@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Date;
+
 
 @SpringBootApplication
 public class SalvoApplication {
@@ -16,17 +18,26 @@ public class SalvoApplication {
 
 
 @Bean
-public CommandLineRunner initData(PlayerRepository repository){
+public CommandLineRunner initData(PlayerRepository playerRepository,
+                                  GameRepository gameRepository){
     return (args) ->{
-        repository.save(new Player("jackbauer@mail.net"));
-        repository.save(new Player("cobrian@mail.net"));
-        repository.save(new Player("kbauer@mail.net"));
-        repository.save(new Player("davidpalmer@mail.net"));
-        repository.save(new Player("mdessler@mail.net"));
-        System.out.println("User name:"+repository.findByUserName("kbauer@mail.net").get(0).getUserName());
-        System.out.println(" // ID:"+repository.findByUserName("kbauer@mail.net").get(0).getId());
+        playerRepository.save(new Player("jackbauer@mail.net"));
+        playerRepository.save(new Player("cobrian@mail.net"));
+        playerRepository.save(new Player("kbauer@mail.net"));
+        playerRepository.save(new Player("davidpalmer@mail.net"));
+        playerRepository.save(new Player("mdessler@mail.net"));
+        Date now= new Date();
+        Game game1= new Game(now);
+        Game game2= new Game(Date.from(now.toInstant().plusSeconds(3600)));
+        Game game3= new Game(Date.from(now.toInstant().plusSeconds(7200)));
+        gameRepository.save(game1);
+        gameRepository.save(game2);
+        gameRepository.save(game3);
 
     };
+
 }
 
+
+//END OF CLASS
 }

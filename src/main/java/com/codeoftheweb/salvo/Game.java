@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
+import  java.util.Date;
 
 @Entity
 public class Game {
@@ -12,20 +12,20 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
-    private LocalDateTime dateTime;
+    private Date creationDate;
 
     public Game(){}
 
-    public Game(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public Game(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     public long getId() {
