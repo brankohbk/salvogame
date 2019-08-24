@@ -1,5 +1,6 @@
 package com.codeoftheweb.salvo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,10 +50,12 @@ public class GamePlayer {
         return joinDate;
     }
 
+    @JsonIgnore
     public Player getPlayer() {
         return player;
     }
 
+    @JsonIgnore
     public Game getGame() {
         return game;
     }

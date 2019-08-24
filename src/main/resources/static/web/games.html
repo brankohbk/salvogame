@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Salvo Game</title>
+</head>
+
+<body>
+  <div id="gamesList">
+    <ol>
+      <template v-for='game in games'>
+        <p v-for='(val,key) in game'>
+            {{key}} - {{val}}
+
+        </p>
+        <p>
+            {{game.created}} 
+            <!-- jugadores: <span v-for='player in game.gamePlayers.player'>, {{player.userName}} </span> -->
+        </p>
+
+        </template>
+
+    </ol>
+  </div>
+  <script src="js/vue.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+  <script src="js/games.js"></script>
+</body>
+
+</html>
