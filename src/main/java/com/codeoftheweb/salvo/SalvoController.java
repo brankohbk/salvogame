@@ -16,7 +16,7 @@ public class SalvoController {
     @Autowired
    private GameRepository gameRepository;
 
-    //Al
+
     @RequestMapping("/games")
      public List<Map<String,Object>> getGames(){
         return gameRepository.findAll()

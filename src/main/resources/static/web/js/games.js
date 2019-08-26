@@ -5,6 +5,11 @@ var app = new Vue({
 
   },
   methods: {
+    formatDate: function(created) {
+      let input = new Date(created)
+      let formated = input.toLocaleString();
+      return formated;
+    }
 
   }
 });

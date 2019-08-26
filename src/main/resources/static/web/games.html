@@ -11,17 +11,15 @@
   <div id="gamesList">
     <ol>
       <template v-for='game in games'>
-        <p v-for='(val,key) in game'>
-            {{key}} - {{val}}
-
-        </p>
-        <p>
-            {{game.created}} 
-            <!-- jugadores: <span v-for='player in game.gamePlayers.player'>, {{player.userName}} </span> -->
-        </p>
-
+        <li>
+          <p>
+            Juego creado: {{formatDate(game.created)}} 
+          </p> 
+          <p>              
+            Jugadores: <span v-for='player in game.gamePlayers'> {{player.player.userName}}, </span>
+          </p>
+        </li>
         </template>
-
     </ol>
   </div>
   <script src="js/vue.min.js"></script>
