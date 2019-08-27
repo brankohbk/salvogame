@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.Date;
+import java.util.List;
 
 
 @SpringBootApplication
@@ -88,7 +89,9 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         gamePlayerRepository.save(gp13);
         gamePlayerRepository.save(gp14);
 
+        List<String> locs1 = <> ;
 
+        Ship ship1 = new Ship("Boat", gp1,locs1);
 
 
 

@@ -1,12 +1,10 @@
 package com.codeoftheweb.salvo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -14,7 +12,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 public class SalvoController {
     @Autowired
-   private GameRepository gameRepository;
+    private GameRepository gameRepository;
 
 
     @RequestMapping("/games")
@@ -24,34 +22,34 @@ public class SalvoController {
                 .map(Game -> makeGameDTO(Game))
                 .collect(Collectors.toList());
     }
-
-    private Map<String, Object> makeGameDTO(Game game){
+    public Map<String, Object> makeGameDTO(Game game){
         Map<String,Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id",game.getId());
         dto.put("created",game.getCreationDate());
-        dto.put("gamePlayers", getGamePlayesList(game.getGamePlayers()));
+        dto.put("gamePlayers", getGamePlayersList(game.getGamePlayers()));
         return dto;
     }
+
+
     @RequestMapping("/players")
-    public List<Map<String,Object>> getGamePlayesList(Set<GamePlayer> gamePlayers){
+    public List<Map<String,Object>> getGamePlayersList(Set<GamePlayer> gamePlayers){
         return gamePlayers
                 .stream()
-                .map(GamePlayer -> makeGamePlayerDTO(GamePlayer))
+                .map(GamePlayer -> GamePlayer.makeGamePlayerDTO(GamePlayer))
                 .collect(Collectors.toList());
     }
 
-    private Map<String,Object> makeGamePlayerDTO( GamePlayer gamePlayer){
-        Map<String,Object> dto = new LinkedHashMap<String,Object>();
-        dto.put("id", gamePlayer.getId());
-        dto.put("player", gamePlayer.getPlayer());
-        return dto;
-    }
-    private Map<String,Object> PlayerDTO (Player player){
-        Map<String,Object> dto = new LinkedHashMap<String,Object>();
-        dto.put("id", player.getId());
-        dto.put("email", player.getUserName());
-        return dto;
-    }
+
+   /* @RequestMapping("/game_view/{playerID}")
+    public Player findById(@PathVariable Long playerID) {
+        Player player = findById(playerID);
+        return player;
+//        todo VERIFICAR COMO SE ARMA ESTE METODO
+
+    }*/
+
+
+
 
 
 
