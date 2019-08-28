@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,8 @@ public class SalvoApplication {
 @Bean
 public CommandLineRunner initData(PlayerRepository playerRepository,
                                   GameRepository gameRepository,
-                                  GamePlayerRepository gamePlayerRepository){
+                                  GamePlayerRepository gamePlayerRepository,
+                                  ShipRepository shipRepository){
     return (args) ->{
         Player jackBauer = new Player("jbauer@ctu.gov");
         Player chloeOBrian = new Player("c.obrian@ctu.gov");
@@ -89,9 +91,47 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         gamePlayerRepository.save(gp13);
         gamePlayerRepository.save(gp14);
 
-        List<String> locs1 = <> ;
+        String destroyerType = "Destroyer";
+        String submarineType ="Submarine";
+        String patrolType="Patrol Boat";
 
-        Ship ship1 = new Ship("Boat", gp1,locs1);
+        List<String> locs1 = new ArrayList<>();
+        locs1.add("h2");
+        locs1.add("h3");
+        locs1.add("h4");
+
+        List<String> locs2 = new ArrayList<>();
+        locs1.add("e1");
+        locs1.add("f1");
+        locs1.add("g1");
+
+        List<String> locs3 = new ArrayList<>();
+        locs1.add("b4");
+        locs1.add("b5");
+
+        List<String> locs4 = new ArrayList<>();
+        locs1.add("b5");
+        locs1.add("c5");
+        locs1.add("d5");
+
+        List<String> locs5 = new ArrayList<>();
+        locs1.add("f1");
+        locs1.add("f2");
+
+
+        Ship ship1 = new Ship(destroyerType,gp1,locs1);
+        Ship ship2 = new Ship(submarineType,gp1,locs2);
+        Ship ship3 = new Ship(patrolType,gp1,locs3);
+        Ship ship4 = new Ship(destroyerType,gp2,locs4);
+        Ship ship5 = new Ship(patrolType,gp2,locs5);
+
+        shipRepository.save(ship1);
+        shipRepository.save(ship2);
+        shipRepository.save(ship3);
+        shipRepository.save(ship4);
+        shipRepository.save(ship5);
+
+
 
 
 

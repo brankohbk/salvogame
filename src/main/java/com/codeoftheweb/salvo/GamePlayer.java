@@ -2,13 +2,12 @@ package com.codeoftheweb.salvo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.ManyToAny;
+
 
 import javax.persistence.*;
 import  java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
+
 
 @Entity
 public class GamePlayer {
@@ -74,10 +73,5 @@ public class GamePlayer {
         this.game = game;
     }
 
-    public Map<String,Object> makeGamePlayerDTO(GamePlayer gamePlayer){
-        Map<String,Object> dto = new LinkedHashMap<String,Object>();
-        dto.put("id", gamePlayer.getId());
-        dto.put("player", gamePlayer.getPlayer());
-        return dto;
-    }
+
 }
