@@ -62,7 +62,7 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
          GamePlayer gp1 = new GamePlayer(now,jackBauer, game1);
          GamePlayer gp2 = new GamePlayer(now,chloeOBrian, game1);
          GamePlayer gp3 = new GamePlayer(time2,jackBauer, game2);
-         GamePlayer gp4 = new GamePlayer(time2,jackBauer, game2);
+         GamePlayer gp4 = new GamePlayer(time2,chloeOBrian, game2);
          GamePlayer gp5 = new GamePlayer(time3,chloeOBrian, game3);
          GamePlayer gp6 = new GamePlayer(time3,tonyAlmeida, game3);
          GamePlayer gp7 = new GamePlayer(time4,chloeOBrian, game4);
@@ -101,22 +101,40 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         locs1.add("h4");
 
         List<String> locs2 = new ArrayList<>();
-        locs1.add("e1");
-        locs1.add("f1");
-        locs1.add("g1");
+        locs2.add("e1");
+        locs2.add("f1");
+        locs2.add("g1");
 
         List<String> locs3 = new ArrayList<>();
-        locs1.add("b4");
-        locs1.add("b5");
+        locs3.add("b4");
+        locs3.add("b5");
 
         List<String> locs4 = new ArrayList<>();
-        locs1.add("b5");
-        locs1.add("c5");
-        locs1.add("d5");
+        locs4.add("b5");
+        locs4.add("c5");
+        locs4.add("d5");
 
         List<String> locs5 = new ArrayList<>();
-        locs1.add("f1");
-        locs1.add("f2");
+        locs5.add("f1");
+        locs5.add("f2");
+
+        List<String> locs6 = new ArrayList<>();
+        locs6.add("b5");
+        locs6.add("c5");
+        locs6.add("d5");
+
+        List<String> locs7 = new ArrayList<>();
+        locs7.add("c6");
+        locs7.add("c7");
+
+        List<String> locs8 = new ArrayList<>();
+        locs8.add("a2");
+        locs8.add("a3");
+        locs8.add("a4");
+
+        List<String> locs9 = new ArrayList<>();
+        locs9.add("g6");
+        locs9.add("h6");
 
 
         Ship ship1 = new Ship(destroyerType,gp1,locs1);
@@ -124,12 +142,31 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         Ship ship3 = new Ship(patrolType,gp1,locs3);
         Ship ship4 = new Ship(destroyerType,gp2,locs4);
         Ship ship5 = new Ship(patrolType,gp2,locs5);
+        Ship ship6 = new Ship(destroyerType,gp3,locs6);
+        Ship ship7 = new Ship(patrolType,gp3,locs7);
+        Ship ship8 = new Ship(submarineType,gp4,locs8);
+        Ship ship9 = new Ship(patrolType,gp4,locs9);
+        Ship ship10=new Ship(destroyerType,gp5,locs6);
+        Ship ship11=new Ship(destroyerType,gp6,locs7);
+        Ship ship12=new Ship(patrolType,gp6,locs8);
+        Ship ship13=new Ship(destroyerType,gp7,locs4);
+        Ship ship14=new Ship(patrolType,gp7,locs6);
+        Ship ship15=new Ship(submarineType,gp8,locs7);
+        Ship ship16=new Ship(patrolType,gp8,locs8);
+        Ship ship17=new Ship(destroyerType,gp9,locs6);
+
+
+
 
         shipRepository.save(ship1);
         shipRepository.save(ship2);
         shipRepository.save(ship3);
         shipRepository.save(ship4);
         shipRepository.save(ship5);
+        shipRepository.save(ship6);
+        shipRepository.save(ship7);
+        shipRepository.save(ship8);
+        shipRepository.save(ship9);
 
 
 

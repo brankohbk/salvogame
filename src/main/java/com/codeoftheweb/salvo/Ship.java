@@ -3,9 +3,7 @@ package com.codeoftheweb.salvo;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Ship {
@@ -56,6 +54,15 @@ public class Ship {
 
     public void setShipLocations(List<String> shipLocations) {
         this.shipLocations = shipLocations;
+    }
+
+
+    public Map<String,Object> ShipDTO (){
+        Map<String,Object> dto = new LinkedHashMap<String,Object>();
+        dto.put("id", this.getId());
+        dto.put("Type", this.shipType);
+        dto.put("Location",this.shipLocations);
+        return dto;
     }
 
 }

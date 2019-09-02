@@ -11,12 +11,13 @@
   <div id="gamesList">
     <ol>
       <template v-for='game in games'>
+
         <li>
           <p>
             Juego creado: {{formatDate(game.created)}} 
           </p> 
           <p>              
-            Jugadores: <span v-for='player in game.gamePlayers'> {{player.player.userName}}, </span>
+            Jugadores: <span v-for='gameplayer in game.gamePlayers'> {{gameplayer.player.email}}, </span>
           </p>
         </li>
         </template>

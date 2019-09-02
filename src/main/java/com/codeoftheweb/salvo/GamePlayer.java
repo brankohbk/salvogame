@@ -6,6 +6,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import  java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -72,6 +74,23 @@ public class GamePlayer {
     public void setGame(Game game) {
         this.game = game;
     }
+
+    public Set<Ship> getShips() {
+        return ships;
+    }
+
+    public void setShips(Set<Ship> ships) {
+        this.ships = ships;
+    }
+
+    public Map<String,Object> makeGamePlayerDTO(){
+        Map<String,Object> dto = new LinkedHashMap<String,Object>();
+        dto.put("id", this.getId());
+        dto.put("player", this.getPlayer().PlayerDTO());
+        return dto;
+    }
+
+
 
 
 }

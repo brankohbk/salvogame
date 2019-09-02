@@ -2,10 +2,8 @@ package com.codeoftheweb.salvo;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import  java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Game {
@@ -38,6 +36,21 @@ public class Game {
 
     public Set<GamePlayer> getGamePlayers() {
         return gamePlayers;
+    }
+
+    public Map<String, Object> makeGameDTO(){
+        Map<String,Object> dto = new LinkedHashMap<String, Object>();
+        dto.put("id",this.getId());
+        dto.put("created",this.getCreationDate());
+        dto.put("gamePlayers", getGamePlayersList(this.getGamePlayers()));
+        return dto;
+    }
+
+    public List<Map<String,Object>> getGamePlayersList(Set<GamePlayer> gamePlayers){
+        return gamePlayers
+                .stream()
+                .map(GamePlayer -> GamePlayer.makeGamePlayerDTO())
+                .collect(Collectors.toList());
     }
 
 }
