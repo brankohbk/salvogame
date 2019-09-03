@@ -30,10 +30,10 @@ public class Ship {
     public Ship() {
     }
 
-    public Ship(String shipType, GamePlayer gamePlayer, List<String> shipLocations) {
+    public Ship(String shipType, GamePlayer gamePlayer, Set<String> shipLocations) {
         this.shipType = shipType;
         this.gamePlayer = gamePlayer;
-        this.shipLocations = shipLocations;
+        this.shipLocations = new ArrayList<>(shipLocations);
     }
 
     public String getShipType() {

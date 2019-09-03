@@ -43,6 +43,7 @@ public class Game {
         dto.put("id",this.getId());
         dto.put("created",this.getCreationDate());
         dto.put("gamePlayers", getGamePlayersList(this.getGamePlayers()));
+
         return dto;
     }
 
@@ -52,5 +53,7 @@ public class Game {
                 .map(GamePlayer -> GamePlayer.makeGamePlayerDTO())
                 .collect(Collectors.toList());
     }
+
+
 
 }
