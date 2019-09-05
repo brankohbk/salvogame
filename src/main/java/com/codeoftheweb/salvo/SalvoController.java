@@ -41,7 +41,7 @@ public class SalvoController {
         GamePlayer gamePlayer = gamePlayerRepository.findById(nn).get();
 
         Map<String,Object> dto = new LinkedHashMap<>();
-        dto.put("Game id", gamePlayer.getGame().getId());
+        dto.put("id", gamePlayer.getGame().getId());
         dto.put("created",gamePlayer.getGame().getCreationDate());
         dto.put("gamePlayers", gamePlayer.getGame().getGamePlayers()
                 .stream()

@@ -96,14 +96,14 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         String patrolType="Patrol Boat";
 
         //Ship LOCATIONS
-        Set<String> l1 = new HashSet<>(Arrays.asList("h2","h3","h4"));
-        Set<String> l2 = new HashSet<>(Arrays.asList("e1","f1","g1"));
-        Set<String> l3 = new HashSet<>(Arrays.asList("b4","b5"));
-        Set<String> l4 = new HashSet<>(Arrays.asList("b5","c5","d5"));
-        Set<String> l5 = new HashSet<>(Arrays.asList("f1","f2"));
-        Set<String> l6 = new HashSet<>(Arrays.asList("c6","c7"));
-        Set<String> l7 = new HashSet<>(Arrays.asList("a2","a3","a4"));
-        Set<String> l8 = new HashSet<>(Arrays.asList("g6","h6"));
+        Set<String> l1 = new HashSet<>(Arrays.asList("H2","H3","H4"));
+        Set<String> l2 = new HashSet<>(Arrays.asList("E1","F1","G1"));
+        Set<String> l3 = new HashSet<>(Arrays.asList("B4","B5"));
+        Set<String> l4 = new HashSet<>(Arrays.asList("B5","C5","D5"));
+        Set<String> l5 = new HashSet<>(Arrays.asList("F1","F2"));
+        Set<String> l6 = new HashSet<>(Arrays.asList("C6","C7"));
+        Set<String> l7 = new HashSet<>(Arrays.asList("A2","A3","A4"));
+        Set<String> l8 = new HashSet<>(Arrays.asList("G6","H6"));
 
         //SHIP INSTANCES
         Ship ship1 = new Ship(destroyerType,gp1,l1);
