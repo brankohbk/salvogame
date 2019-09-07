@@ -61,7 +61,7 @@ public class Ship {
         Map<String,Object> dto = new LinkedHashMap<String,Object>();
         dto.put("id", this.getId());
         dto.put("Type", this.shipType);
-        dto.put("Location",this.shipLocations);
+        dto.put("shipLocation",this.shipLocations);
         return dto;
     }
 

@@ -44,6 +44,34 @@ function paramObj(search) {
   });
   return obj;
 }
+
+//pinto los ships del gp en la grilla
+function showShips(json) {
+  var ships = json.ships;
+  ships.map(ship => {
+    ship.shipLocation.map(loc => {
+      document.getElementById(loc.toLowerCase()).style.background = "green";
+      document.getElementById(loc.toLowerCase()).classList.add("shipPart")
+    })
+  });
+}
+
+//Pinto los salvos
+function showSalvoes(json){
+    var salvoes = json.salvoes;
+    salvoes.map(salvo =>{
+        salvo.salvoLocation.map(loc => {
+        cell= document.getElementById(loc.toLowerCase());
+        if (cell.classList.contains("shipPart")){
+            cell.innerHTML = salvo.turn;
+            cell.classList.add("hitted");
+            cell.style.background ="red";
+        }
+            console.log(salvo.turn);
+
+        })
+    })
+}
 //fetch que me da el json (response.json)
 function fetchJson(url, init) {
   return fetch(url, init).then(function(response) {
@@ -53,21 +81,14 @@ function fetchJson(url, init) {
     throw new Error(response.statusText);
   });
 }
-//pinto los ships del gp en la grilla
-function showShips(json) {
-  var ships = json.ships;
-  ships.map(ship => {
-    ship.Location.map(loc => {
-      document.getElementById(loc.toLowerCase()).style.background = "green";
-    })
-  });
 
-}
 //hago el fetch
-fetchJson('/api/game_view/' + paramObj(location.search).gp).then(function(json) {
+fetchJson('/api/game_view/' + paramObj(location.search).gp).then(json => {
   document.getElementById("vs").innerHTML = " vs ";
+  console.log(json);
   showShips(json);
-  json.gamePlayers.map(function(e) {
+  showSalvoes(json);
+  json.gamePlayers.map(e => {
     if (e.id == paramObj(location.search).gp) {
       document.getElementById("gp1").innerHTML = e.player.email + "(you)";
     } else {

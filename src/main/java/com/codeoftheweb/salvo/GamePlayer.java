@@ -5,10 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 
 import javax.persistence.*;
-import  java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -32,7 +29,11 @@ public class GamePlayer {
     private Game game;
 
     @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)
-    Set<Ship> ships;
+    Set<Ship> ships = new LinkedHashSet<>();;
+
+    @OneToMany(mappedBy="gamePlayer", fetch= FetchType.EAGER)
+    Set<Salvo> salvoes = new LinkedHashSet<>(); //LinkedHashSet ordena automaticamente los resultados
+
 
 
     //Methods
@@ -77,6 +78,14 @@ public class GamePlayer {
 
     public Set<Ship> getShips() {
         return ships;
+    }
+
+    public Set<Salvo> getSalvoes() {
+        return salvoes;
+    }
+
+    public void setSalvoes(Set<Salvo> salvoes) {
+        this.salvoes = salvoes;
     }
 
     public void setShips(Set<Ship> ships) {

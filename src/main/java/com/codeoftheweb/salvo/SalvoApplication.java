@@ -21,7 +21,8 @@ public class SalvoApplication {
 public CommandLineRunner initData(PlayerRepository playerRepository,
                                   GameRepository gameRepository,
                                   GamePlayerRepository gamePlayerRepository,
-                                  ShipRepository shipRepository){
+                                  ShipRepository shipRepository,
+                                  SalvoRepository salvoRepository){
     return (args) ->{
         Player jackBauer = new Player("jbauer@ctu.gov");
         Player chloeOBrian = new Player("c.obrian@ctu.gov");
@@ -140,10 +141,57 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
                 ship20,ship21,ship22,ship23,ship24,ship25,ship26,ship27));
 
 
+        //SALVO LOCATIONS
 
+        Set<String> sl1 = new HashSet<>(Arrays.asList("B5", "C5", "F1"));
+        Set<String> sl2 = new HashSet<>(Arrays.asList("B4", "B5", "B6"));
+        Set<String> sl3 = new HashSet<>(Arrays.asList("F2", "D5"));
+        Set<String> sl4 = new HashSet<>(Arrays.asList("E1", "H3", "A2"));
+        Set<String> sl5 = new HashSet<>(Arrays.asList("A2", "A4", "G6"));
+        Set<String> sl6 = new HashSet<>(Arrays.asList("B5", "D5", "C7"));
+        Set<String> sl7 = new HashSet<>(Arrays.asList("A3", "H6"));
+        Set<String> sl8 = new HashSet<>(Arrays.asList("C5", "C6"));
+        Set<String> sl9 = new HashSet<>(Arrays.asList("G6", "H6", "A4"));
+        Set<String> sl10= new HashSet<>(Arrays.asList("H1", "H2", "H3"));
+        Set<String> sl11 = new HashSet<>(Arrays.asList("A2", "A3", "D8"));
+        Set<String> sl12 = new HashSet<>(Arrays.asList("E1", "F2", "G3"));
+        Set<String> sl13 = new HashSet<>(Arrays.asList("A3", "A4", "F7"));
+        Set<String> sl14 = new HashSet<>(Arrays.asList("B5", "C6", "H1"));
+        Set<String> sl15 = new HashSet<>(Arrays.asList("A2", "G6", "H6"));
+        Set<String> sl16 = new HashSet<>(Arrays.asList("C5", "C7", "D5"));
+        Set<String> sl17 = new HashSet<>(Arrays.asList("A1", "A2", "A3"));
+        Set<String> sl18 = new HashSet<>(Arrays.asList("B5", "B6", "C7"));
+        Set<String> sl19 = new HashSet<>(Arrays.asList("G6", "G7", "G8"));
+        Set<String> sl20 = new HashSet<>(Arrays.asList("C6", "D6", "E6"));
+        Set<String> sl21 = new HashSet<>(Arrays.asList("H1", "H8"));
 
+        //SALVO INSTANCES
 
+        Salvo salvo1 = new Salvo(1,gp1,sl1);
+        Salvo salvo2 = new Salvo(1,gp2,sl2);
+        Salvo salvo3 = new Salvo(2,gp1,sl3);
+        Salvo salvo4 = new Salvo(2,gp2,sl4);
+        Salvo salvo5 = new Salvo(1,gp3,sl5);
+        Salvo salvo6 = new Salvo(1,gp4,sl6);
+        Salvo salvo7 = new Salvo(2,gp3,sl7);
+        Salvo salvo8 = new Salvo(2,gp4,sl8);
+        Salvo salvo9 = new Salvo(1,gp5,sl9);
+        Salvo salvo10 = new Salvo(1,gp6,sl10);
+        Salvo salvo11 = new Salvo(2,gp5,sl11);
+        Salvo salvo12 = new Salvo(2,gp6,sl12);
+        Salvo salvo13 = new Salvo(1,gp7,sl13);
+        Salvo salvo14 = new Salvo(1,gp8,sl14);
+        Salvo salvo15= new Salvo(2,gp7,sl15);
+        Salvo salvo16 = new Salvo(2,gp8,sl16);
+        Salvo salvo17 = new Salvo(1,gp9,sl17);
+        Salvo salvo18 = new Salvo(1,gp10,sl18);
+        Salvo salvo19 = new Salvo(2,gp9,sl19);
+        Salvo salvo20 = new Salvo(2,gp10,sl20);
+        Salvo salvo21 = new Salvo(3,gp10,sl21);
 
+        //ADD SALVOES TO DATABASE
+        salvoRepository.saveAll(Arrays.asList(salvo1,salvo2,salvo3,salvo4,salvo5,salvo6,salvo7,salvo8,salvo9,
+                salvo10,salvo11,salvo12,salvo13,salvo14,salvo15,salvo16,salvo17,salvo18,salvo19,salvo20,salvo21));
 
 
     };

@@ -44,25 +44,32 @@ function paramObj(search) {
   });
   return obj;
 }
-//fetch que me da el json (response.json)
-function fetchJson(url, init) {
-  return fetch(url, init).then(function(response) {
-    if (response.ok) {
-      return response.json();
-    }
-    throw new Error(response.statusText);
-  });
-}
+
 //pinto los ships del gp en la grilla
 function showShips(json) {
   var ships = json.ships;
   ships.map(ship => {
-    ship.Location.map(loc => {
+    ship.shipsLocation.map(loc => {
       document.getElementById(loc.toLowerCase()).style.background = "green";
+      document.getElementById(loc.toLowerCase()).classList.add("shipPart")
     })
   });
-
 }
+
+//Pinto los salvos
+funcion showSalvoes(json){
+    var salvoes = json.salvoes;
+    salvoes.map(salvo =>{
+        salvo.salvoLocation.map(loc => {
+        cell= document.getElementById(loc.toLowerCase());
+        if (cell.classList.contains("shipPart")){
+            cell.innerHTML = salvo.turn;
+        }
+
+        })
+    })
+}
+
 //hago el fetch
 fetchJson('/api/game_view/' + paramObj(location.search).gp).then(function(json) {
   document.getElementById("vs").innerHTML = " vs ";

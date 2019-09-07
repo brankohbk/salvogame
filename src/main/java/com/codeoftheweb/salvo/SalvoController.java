@@ -4,10 +4,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -44,26 +41,27 @@ public class SalvoController {
         dto.put("id", gamePlayer.getGame().getId());
         dto.put("created",gamePlayer.getGame().getCreationDate());
         dto.put("gamePlayers", gamePlayer.getGame().getGamePlayers()
-                .stream()
-                .map(gamePlayer1 -> gamePlayer1.makeGamePlayerDTO())
-                .collect(Collectors.toList()));
+                        .stream()
+                        .sorted(Comparator.comparingLong(GamePlayer::getId))
+                        .map(gamePlayer1 -> gamePlayer1.makeGamePlayerDTO())
+                        .collect(Collectors.toList())
+                );
         dto.put("ships",
                 gamePlayer.getShips()
-                           .stream()
-                           .map(ship -> ship.ShipDTO())
-                           .collect(Collectors.toList()));
+                        .stream()
+                        .sorted(Comparator.comparingLong(Ship::getId))
+                        .map(ship -> ship.ShipDTO())
+                        .collect(Collectors.toList())
+                );
+        dto.put("salvoes",
+                gamePlayer.getSalvoes()
+                        .stream()
+                        .sorted(Comparator.comparingLong(Salvo::getId))
+                        .map(salvo -> salvo.SalvoDTO())
+                        .collect(Collectors.toList())
+                );
         return dto;
     }
-
-
-
-
-
-
-
-
-
-
 
 }
 
