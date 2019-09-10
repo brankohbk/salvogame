@@ -53,15 +53,27 @@ public class SalvoController {
                         .map(ship -> ship.ShipDTO())
                         .collect(Collectors.toList())
                 );
+
         dto.put("salvoes",
-                gamePlayer.getSalvoes()
+                gamePlayer.getGame()
+                        .getGamePlayers()
                         .stream()
-                        .sorted(Comparator.comparingLong(Salvo::getId))
-                        .map(salvo -> salvo.SalvoDTO())
-                        .collect(Collectors.toList())
-                );
+                        .flatMap(gp -> gp.getSalvoes()
+                                .stream()
+                                .sorted(Comparator.comparingLong(Salvo::getId))
+                                .map(salvo ->  salvo.SalvoDTO())
+                                )
+                                .collect(Collectors.toList())
+
+
+        );
+
         return dto;
     }
+
+
+
+
 
 }
 

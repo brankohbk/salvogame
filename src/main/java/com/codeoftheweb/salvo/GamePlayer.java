@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -97,6 +98,14 @@ public class GamePlayer {
         dto.put("id", this.getId());
         dto.put("player", this.getPlayer().PlayerDTO());
         return dto;
+    }
+
+    public List<Map<String,Object>> getSalvoList(){
+        return this.getSalvoes()
+                .stream()
+                .sorted(Comparator.comparingLong(Salvo::getId))
+                .map(salvo -> salvo.SalvoDTO())
+                .collect(Collectors.toList());
     }
 
 

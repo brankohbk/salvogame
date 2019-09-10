@@ -13,6 +13,7 @@
 
 .divTableCell {
   border: 1px solid black;
+  text-align: center;
 }
 
 .water {
@@ -29,4 +30,16 @@
 
 .container {
   display: grid;
+}
+
+.shipPart {
+  background: greenyellow;
+}
+
+.hitted {
+  background: firebrick;
+}
+
+.mySalvo {
+  background: #b4d455;
 }
