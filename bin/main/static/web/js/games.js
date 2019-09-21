@@ -1,7 +1,8 @@
 var app = new Vue({
-  el: "#gamesList",
+  el: "#app",
   data: {
     games: [],
+    players: [],
 
   },
   methods: {
@@ -14,7 +15,7 @@ var app = new Vue({
   }
 });
 
-const gamesURL = "/api/games";
+
 
 var promiseModifiers = {
   method: 'GET',
@@ -22,10 +23,15 @@ var promiseModifiers = {
   cache: 'default'
 };
 
-let dataPromise = fetch(gamesURL, promiseModifiers);
-dataPromise
-  .then(response => response.json())
-  .then(myJson => {
-    app.games = myJson;
-  })
-  .catch(err => { `Couldn't retrieve info. please, check this error: ${err}` });
+fetchMyData("/api/games", promiseModifiers, "games");
+fetchMyData("/rest/players", promiseModifiers, "players");
+
+function fetchMyData(url, headers, dataHolder) {
+  let promise = fetch(url, headers);
+  promise
+    .then(response => response.json())
+    .then(myJson => {
+      app[dataHolder] = myJson;
+    })
+    .catch(err => { `Couldn't retrieve info. please, check this error: ${err}` });
+}

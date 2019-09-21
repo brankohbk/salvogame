@@ -33,6 +33,7 @@ public class SalvoController {
                 .collect(Collectors.toList());
     }
 
+
     @RequestMapping("/game_view/{nn}")
     public Map<String,Object> getGameViewByGamePlayerId(@PathVariable Long nn){
         GamePlayer gamePlayer = gamePlayerRepository.findById(nn).get();

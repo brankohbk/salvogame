@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <div id="gamesList">
+  <div id="app">
     <ol>
       <template v-for='game in games'>
 
@@ -22,6 +22,24 @@
         </li>
         </template>
     </ol>
+    <table>
+      <thead>
+        <th>PLAYER</th>
+        <th>TOTAL SCORE</th>
+        <th>WINS</th>
+        <th>TIES</th>
+        <th>LOSES</th>
+      </thead>
+      <tr v-for="player in players._embedded.players">
+
+        <td> {{player.userName}}</td>
+        <td> {{player.totalScore}}</td>
+        <td> {{player.wins}}</td>
+        <td> {{player.draws}}</td>
+        <td> {{player.losses}}</td>
+      </tr>
+    </table>
+    <!-- END OF APP -->
   </div>
   <script src="js/vue.min.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.0.js"></script>

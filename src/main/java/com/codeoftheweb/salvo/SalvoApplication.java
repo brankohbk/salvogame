@@ -22,7 +22,8 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
                                   GameRepository gameRepository,
                                   GamePlayerRepository gamePlayerRepository,
                                   ShipRepository shipRepository,
-                                  SalvoRepository salvoRepository){
+                                  SalvoRepository salvoRepository,
+                                  ScoreRepository scoreRepository){
     return (args) ->{
         Player jackBauer = new Player("jbauer@ctu.gov");
         Player chloeOBrian = new Player("c.obrian@ctu.gov");
@@ -192,6 +193,23 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         //ADD SALVOES TO DATABASE
         salvoRepository.saveAll(Arrays.asList(salvo1,salvo2,salvo3,salvo4,salvo5,salvo6,salvo7,salvo8,salvo9,
                 salvo10,salvo11,salvo12,salvo13,salvo14,salvo15,salvo16,salvo17,salvo18,salvo19,salvo20,salvo21));
+
+
+        //CREATE SCORES
+        Score score1 =new Score(game1, jackBauer, "w", Date.from(game1.getCreationDate().toInstant().plusSeconds(1800)));
+        Score score2 =new Score(game1, chloeOBrian, "l", Date.from(game1.getCreationDate().toInstant().plusSeconds(1800)));
+        Score score3 =new Score(game2, jackBauer, "t", Date.from(game2.getCreationDate().toInstant().plusSeconds(1800)));
+        Score score4 =new Score(game2, chloeOBrian, "t", Date.from(game2.getCreationDate().toInstant().plusSeconds(1800)));
+        Score score5 =new Score(game3, chloeOBrian, "w", Date.from(game3.getCreationDate().toInstant().plusSeconds(1800)));
+        Score score6 =new Score(game3, tonyAlmeida, "l", Date.from(game3.getCreationDate().toInstant().plusSeconds(1800)));
+        Score score7 =new Score(game4, chloeOBrian, "t", Date.from(game4.getCreationDate().toInstant().plusSeconds(1800)));
+        Score score8 =new Score(game4, jackBauer, "t", Date.from(game4.getCreationDate().toInstant().plusSeconds(1800)));
+
+        //ADD SCORES TO DATABASE
+        scoreRepository.saveAll(Arrays.asList(score1,score2,score3,score4,score5,score6,score7,score8));
+
+
+
 
 
     };

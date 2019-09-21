@@ -97,6 +97,7 @@ public class GamePlayer {
         Map<String,Object> dto = new LinkedHashMap<String,Object>();
         dto.put("id", this.getId());
         dto.put("player", this.getPlayer().PlayerDTO());
+        dto.put("score",this.getPlayer().getScore(this.getGame()));
         return dto;
     }
 
@@ -107,6 +108,7 @@ public class GamePlayer {
                 .map(salvo -> salvo.SalvoDTO())
                 .collect(Collectors.toList());
     }
+
 
 
 
