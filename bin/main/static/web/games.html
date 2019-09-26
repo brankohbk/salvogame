@@ -3,46 +3,56 @@
 
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/styles.css">
   <title>Salvo Game</title>
 </head>
 
 <body>
   <div id="app">
-    <ol>
-      <template v-for='game in games'>
-
-        <li>
-          <p>
-            Juego creado: {{formatDate(game.created)}} 
-          </p> 
-          <p>              
-            Jugadores: <span v-for='gameplayer in game.gamePlayers'> {{gameplayer.player.email}}, </span>
-          </p>
-        </li>
+    <div class="container-fluid d-flex justify-content-between col-9 p-5">
+      <div class="col-5">
+        <ol class="list-group list-group-flush">
+          <template v-for='game in games'>
+  
+            <li class="list-group-item">
+            <p>
+              Juego creado: {{formatDate(game.created)}} 
+            </p> 
+            <p>              
+              Jugadores: <span v-for='gameplayer in game.gamePlayers'> {{gameplayer.player.email}}, </span>
+            </p>
+          </li>
         </template>
-    </ol>
-    <table>
-      <thead>
-        <th>PLAYER</th>
-        <th>TOTAL SCORE</th>
-        <th>WINS</th>
-        <th>TIES</th>
-        <th>LOSES</th>
-      </thead>
-      <tr v-for="player in players._embedded.players">
+        </ol>
+      </div>
+      <div class="col-5">
 
-        <td> {{player.userName}}</td>
-        <td> {{player.totalScore}}</td>
-        <td> {{player.wins}}</td>
-        <td> {{player.draws}}</td>
-        <td> {{player.losses}}</td>
-      </tr>
-    </table>
+        <table class="table table-bordered table-hover">
+          <thead class="thead-dark">
+            <th>PLAYER</th>
+            <th>TOTAL SCORE</th>
+            <th>WINS</th>
+            <th>TIES</th>
+            <th>LOSES</th>
+          </thead>
+          <tbody class="">
+            <tr v-for="player in players._embedded.players">
+              <td> {{player.userName}}</td>
+              <td> {{player.totalScore}}</td>
+              <td> {{player.wins}}</td>
+              <td> {{player.draws}}</td>
+              <td> {{player.losses}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
     <!-- END OF APP -->
   </div>
   <script src="js/vue.min.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/games.js"></script>
 </body>
 
