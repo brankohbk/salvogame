@@ -15,6 +15,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
@@ -25,13 +27,16 @@ import java.util.*;
 
 
 @SpringBootApplication
-public class SalvoApplication extends SpringBootServletInitializer {
+public class SalvoApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SalvoApplication.class, args);
 	}
 
-
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
 @Bean
 public CommandLineRunner initData(PlayerRepository playerRepository,
@@ -41,10 +46,10 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
                                   SalvoRepository salvoRepository,
                                   ScoreRepository scoreRepository){
     return (args) ->{
-        Player jackBauer = new Player("j.bauer@ctu.gov", "24");
-        Player chloeOBrian = new Player("c.obrian@ctu.gov","42");
-        Player kimBauer = new Player("kim_bauer@gmail.com","kb");
-        Player tonyAlmeida = new Player("t.almeida@ctu.gov","mole");
+        Player jackBauer = new Player("j.bauer@ctu.gov", passwordEncoder().encode("24") );
+        Player chloeOBrian = new Player("c.obrian@ctu.gov", passwordEncoder().encode("42"));
+        Player kimBauer = new Player("kim_bauer@gmail.com", passwordEncoder().encode("kb"));
+        Player tonyAlmeida = new Player("t.almeida@ctu.gov", passwordEncoder().encode("mole"));
         playerRepository.save(jackBauer);
         playerRepository.save(chloeOBrian);
         playerRepository.save(kimBauer);
@@ -245,7 +250,7 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(inputUserName -> {
-            Player player = playerRepository.findByUserName(inputUserName).get();
+            Player player = playerRepository.findByUserName(inputUserName);
             if (player != null) {
                 return new User(player.getUserName(), player.getPassword(),
                         AuthorityUtils.createAuthorityList("USER"));
@@ -263,12 +268,16 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/api/game_view/**").hasAuthority("USER")
-                .antMatchers("/**").permitAll()
-                .and()
-                .formLogin()
-                .usernameParameter("userName")
-                .passwordParameter("password")
+                .antMatchers("/web/games.html").permitAll()
+                .antMatchers("/web/**").permitAll()
+                .antMatchers("/api/games").permitAll()
+                .antMatchers("/api/players").permitAll()
+                .antMatchers("/api/game_view/*").hasAuthority("USER")
+                .antMatchers("/rest").denyAll()
+                .antMatchers("/**").permitAll();
+                http.formLogin()
+                .usernameParameter("user")
+                .passwordParameter("pass")
                 .loginPage("/api/login");
 
     http.logout().logoutUrl("/api/logout");
