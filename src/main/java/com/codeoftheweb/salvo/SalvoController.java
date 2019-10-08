@@ -1,5 +1,8 @@
 package com.codeoftheweb.salvo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,14 +27,39 @@ public class SalvoController {
     @Autowired
     private ShipRepository shipRepository;
 
+    String currentUser="";
 
     @RequestMapping("/games")
-    public List<Map<String,Object>> getGames(){
+    public Map<String, Object> makeGamesList(){
+        Map<String,Object> dto = new LinkedHashMap<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+             currentUser = authentication.getName();
+            Player player = playerRepository.findByUserName(currentUser);
+            dto.put("player",player.PlayerDTO());
+        }
+        else {
+            dto.put("player","Guest");
+        }
+        dto.put("games", gameRepository.findAll()
+                .stream()
+                .map(Game -> Game.makeGameDTO())
+                .collect(Collectors.toList()));
+        return dto;
+    }
+
+    @RequestMapping("/books")
+    public Map<String, Object> getAll(Authentication authentication) {
+        return playerRepository.findByUserName(authentication.getName()).PlayerDTO();
+    }
+
+  /*  public List<Map<String,Object>> getGames(){
         return gameRepository.findAll()
                 .stream()
                 .map(Game -> Game.makeGameDTO())
                 .collect(Collectors.toList());
-    }
+    }*/
+
 
 
     @RequestMapping("/game_view/{nn}")
