@@ -1,11 +1,10 @@
 package com.codeoftheweb.salvo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collector;
@@ -48,19 +47,21 @@ public class SalvoController {
         return dto;
     }
 
-    @RequestMapping("/books")
-    public Map<String, Object> getAll(Authentication authentication) {
-        return playerRepository.findByUserName(authentication.getName()).PlayerDTO();
+    @RequestMapping("/leaderboard")
+    public Map<String, Object> makeLeaderboard(){
+
+        //List<Player> playerList= playerRepository.findAll();
+        Map<String,Object> dto = new LinkedHashMap<>();
+        dto.put("players", playerRepository.findAll()
+                        .stream()
+                        .sorted(Comparator.comparingDouble(Player::getTotalScore).reversed())
+                        .sorted(Comparator.comparingDouble(Player::getWins).reversed())
+                        .map(player -> player.makePlayerScoreDTO())
+                .collect(Collectors.toList())
+                );
+
+        return dto;
     }
-
-  /*  public List<Map<String,Object>> getGames(){
-        return gameRepository.findAll()
-                .stream()
-                .map(Game -> Game.makeGameDTO())
-                .collect(Collectors.toList());
-    }*/
-
-
 
     @RequestMapping("/game_view/{nn}")
     public Map<String,Object> getGameViewByGamePlayerId(@PathVariable Long nn){

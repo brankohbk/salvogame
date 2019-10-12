@@ -115,7 +115,7 @@ public class Player {
     public Map<String, Object> makePlayerScoreDTO() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
         dto.put("id", this.getId());
-        dto.put("email", this.getUserName());
+        dto.put("name", this.getUserName());
         dto.put("total", this.getTotalScore());
         dto.put("wins", this.getWins());
         dto.put("losses", this.getLosses());

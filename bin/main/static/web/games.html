@@ -13,14 +13,14 @@
     <div class="container-fluid d-flex justify-content-between col-9 p-5">
       <div class="col-5">
         <ol class="list-group list-group-flush">
-          <template v-for='game in games'>
+          <template v-for='game in gamesList.games'>
   
             <li class="list-group-item">
             <p>
               Juego creado: {{formatDate(game.created)}} 
             </p> 
             <p>              
-              Jugadores: <span v-for='gameplayer in game.gamePlayers'> {{gameplayer.player.email}}, </span>
+             Jugadores: <span v-for='gameplayer in game.gamePlayers'> {{gameplayer.player.name}}, </span>
             </p>
           </li>
         </template>
@@ -37,9 +37,9 @@
             <th>LOSES</th>
           </thead>
           <tbody class="">
-            <tr v-for="player in players._embedded.players">
-              <td> {{player.userName}}</td>
-              <td> {{player.totalScore}}</td>
+            <tr v-for="player in leaderboard.players">
+              <td> {{player.name}}</td>
+              <td> {{player.total}}</td>
               <td> {{player.wins}}</td>
               <td> {{player.draws}}</td>
               <td> {{player.losses}}</td>

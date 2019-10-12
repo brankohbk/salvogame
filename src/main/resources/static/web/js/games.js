@@ -1,8 +1,8 @@
 var app = new Vue({
   el: "#app",
   data: {
-    games: [],
-    players: [],
+    gamesList: [],
+    leaderboard: [],
 
   },
   methods: {
@@ -15,16 +15,13 @@ var app = new Vue({
   }
 });
 
-
-
 var promiseModifiers = {
   method: 'GET',
   mode: 'no-cors',
   cache: 'default'
 };
 
-fetchMyData("/api/games", promiseModifiers, "games");
-fetchMyData("/rest/players", promiseModifiers, "players");
+
 
 function fetchMyData(url, headers, dataHolder) {
   let promise = fetch(url, headers);
@@ -35,3 +32,6 @@ function fetchMyData(url, headers, dataHolder) {
     })
     .catch(err => { `Couldn't retrieve info. please, check this error: ${err}` });
 }
+
+fetchMyData("/api/games", promiseModifiers, "gamesList");
+fetchMyData("/api/leaderboard", promiseModifiers, "leaderboard");

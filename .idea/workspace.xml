@@ -10,8 +10,16 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/main/com/codeoftheweb/salvo/SalvoApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/main/com/codeoftheweb/salvo/SalvoApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/main/static/web/games.html" beforeDir="false" afterPath="$PROJECT_DIR$/bin/main/static/web/games.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/main/static/web/js/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/main/static/web/js/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/main/static/web/js/games.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/main/static/web/js/games.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codeoftheweb/salvo/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codeoftheweb/salvo/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/codeoftheweb/salvo/SalvoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codeoftheweb/salvo/SalvoApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/codeoftheweb/salvo/SalvoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codeoftheweb/salvo/SalvoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/web/games.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/web/games.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/web/js/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/web/js/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/web/js/games.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/web/js/games.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +124,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.SalvoApplication">
+  <component name="RunManager" selected="Gradle.salvo [clean]">
     <configuration name="SalvoApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.codeoftheweb.salvo.SalvoApplication" />
       <module name="salvo.main" />
