@@ -5,29 +5,86 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/fontawesome.min.css">
   <title>Salvo Game</title>
 </head>
 
 <body>
   <div id="app">
-    <div class="container-fluid d-flex justify-content-between col-9 p-5">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark mb-3">
+      <a class="navbar-brand" href="#">SALVO GAME</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+      <div class="collapse navbar-collapse" id="navbarToggle">
+
+        <div v-if="currentUser==''" class="dropdown  ml-auto">
+          <button class="btn btn-info my-2 my-sm-0" type="button" id="loginDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-user-circle fa-lg mr-2"></i> LOG IN</button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <form class="px-4 py-3">
+              <div class="form-group">
+                <label for="exampleDropdownFormEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+              </div>
+              <div class="form-group">
+                <label for="exampleDropdownFormPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="dropdownCheck">
+                  <label class="form-check-label" for="dropdownCheck">
+                     Remember me
+                  </label>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary">Sign in</button>
+            </form>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">New around here? Sign up</a>
+          </div>
+        </div>
+
+        <div v-if="currentUser!=''" class="dropdown ml-auto">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="logedDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-lg mr-2"></i> {{currentUser}} </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <div>
+              <div class="form-group mx-auto">
+                <i class="fas fa-user-circle fa-4x"></i>
+              </div>
+              <div class="form-group mx-auto">
+                <label for="exampleDropdownFormPassword1">Username:</label>
+                <p>{{currentUser}}</p>
+              </div>
+
+            </div>
+            <div class="dropdown-divider"></div>
+            <button type="button" class="btn btn-danger mx-auto">Log out</button>
+          </div>
+        </div>
+
+
+      </div>
+    </nav>
+    <!-- END OF NAVBAR -->
+    <main class="container-fluid d-flex justify-content-between col-9 p-5 mt-3">
+
       <div class="col-5">
         <ol class="list-group list-group-flush">
           <template v-for='game in gamesList.games'>
-  
-            <li class="list-group-item">
-            <p>
-              Juego creado: {{formatDate(game.created)}} 
-            </p> 
+              
+              <li class="list-group-item">
+                <p>
+                  Juego creado: {{formatDate(game.created)}} 
+                </p> 
             <p>              
-             Jugadores: <span v-for='gameplayer in game.gamePlayers'> {{gameplayer.player.name}}, </span>
+              Jugadores: <span v-for='gameplayer in game.gamePlayers'> {{gameplayer.player.name}}, </span>
             </p>
           </li>
         </template>
         </ol>
       </div>
       <div class="col-5">
-
         <table class="table table-bordered table-hover">
           <thead class="thead-dark">
             <th>PLAYER</th>
@@ -47,12 +104,14 @@
           </tbody>
         </table>
       </div>
-    </div>
+
+    </main>
     <!-- END OF APP -->
   </div>
   <script src="js/vue.min.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
+  <!-- <script src="js/fontawesome.min.js"></script> -->
   <script src="js/games.js"></script>
 </body>
 

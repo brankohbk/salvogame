@@ -3,6 +3,7 @@ var app = new Vue({
   data: {
     gamesList: [],
     leaderboard: [],
+    currentUser: "",
 
   },
   methods: {
@@ -12,6 +13,15 @@ var app = new Vue({
       return formated;
     }
 
+  },
+  computed: {
+    userIcon: function() {
+      if (this.currentUser == "") {
+        return "far fa-user";
+      } else {
+        return "fas fa-user";
+      }
+    }
   }
 });
 

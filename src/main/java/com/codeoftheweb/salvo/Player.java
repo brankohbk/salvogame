@@ -34,6 +34,10 @@ public class Player {
     //Methods.
     public Player(){}
 
+    public Player(String name){
+        this.userName = name;
+    }
+
     public Player(String userName, String password){
         this.userName=userName;
         this.password=password;

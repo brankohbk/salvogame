@@ -1,9 +1,13 @@
 package com.codeoftheweb.salvo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -25,6 +29,7 @@ public class SalvoController {
 
     @Autowired
     private ShipRepository shipRepository;
+
 
     String currentUser="";
 
@@ -94,11 +99,36 @@ public class SalvoController {
                                 .map(salvo ->  salvo.SalvoDTO())
                                 )
                                 .collect(Collectors.toList())
-
-
         );
 
         return dto;
+    }
+
+    @RequestMapping(path = "/players", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> createUser(@RequestParam String user, @RequestParam String pass) {
+        if (user.isEmpty()) {
+            return new ResponseEntity<>(makeMap("error", "Please insert an email"), HttpStatus.FORBIDDEN);
+        }
+        if(pass.isEmpty()){
+            return new ResponseEntity<>(makeMap("error","Please, fill the password field"), HttpStatus.FORBIDDEN);
+        }
+        Player player = playerRepository.findByUserName(user);
+        if (player != null) {
+            return new ResponseEntity<>(makeMap("error", "Username already exists"), HttpStatus.CONFLICT);
+        }
+        Player newPlayer = playerRepository.save(new Player(user, passwordEncoder().encode(pass)));
+        return new ResponseEntity<>(makeMap("Player created successfully. ID", newPlayer.getId()), HttpStatus.CREATED);
+    }
+
+
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    private Map<String, Object> makeMap(String key, Object value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
     }
 
 
