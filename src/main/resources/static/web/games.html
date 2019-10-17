@@ -18,55 +18,50 @@
   </button>
       <div class="collapse navbar-collapse" id="navbarToggle">
 
-        <div v-if="currentUser==''" class="dropdown  ml-auto">
+        <div v-if="currentUser==''" class="dropdown  ml-auto mr-5">
           <button class="btn btn-info my-2 my-sm-0" type="button" id="loginDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-user-circle fa-lg mr-2"></i> LOG IN</button>
           <div class="dropdown-menu dropdown-menu-right">
             <form class="px-4 py-3">
               <div class="form-group">
-                <label for="exampleDropdownFormEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+                <label for="user">Email address</label>
+                <input type="email" class="form-control" id="user" placeholder="email@example.com">
               </div>
               <div class="form-group">
-                <label for="exampleDropdownFormPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+                <label for="pass">Password</label>
+                <input type="password" class="form-control" id="pass" placeholder="Password">
               </div>
-              <div class="form-group">
-                <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="dropdownCheck">
-                  <label class="form-check-label" for="dropdownCheck">
-                     Remember me
-                  </label>
-                </div>
+              <div class="form-group text-right">
+                <button type="button" class="btn btn-success" @click="login(user.value,pass.value)">Log me in</button>
               </div>
-              <button type="button" class="btn btn-primary">Sign in</button>
             </form>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">New around here? Sign up</a>
+            <a class="dropdown-item" href="#">New around here? <span class="text-success">Sign up</span></a>
           </div>
         </div>
 
-        <div v-if="currentUser!=''" class="dropdown ml-auto">
+        <div v-if="currentUser!=''" class="dropdown ml-auto mr-5">
+
           <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="logedDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-lg mr-2"></i> {{currentUser}} </button>
-          <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-menu dropdown-menu-right text-center">
             <div>
-              <div class="form-group mx-auto">
+              <div class="form-group mx-auto text-center">
                 <i class="fas fa-user-circle fa-4x"></i>
               </div>
-              <div class="form-group mx-auto">
+              <div class="form-group mx-auto text-center">
                 <label for="exampleDropdownFormPassword1">Username:</label>
                 <p>{{currentUser}}</p>
               </div>
 
             </div>
             <div class="dropdown-divider"></div>
-            <button type="button" class="btn btn-danger mx-auto">Log out</button>
+            <button type="button" class="btn btn-danger mx-auto center" @click="logout">Log out</button>
           </div>
         </div>
 
 
       </div>
+      <!-- END OF NAVBAR -->
     </nav>
-    <!-- END OF NAVBAR -->
     <main class="container-fluid d-flex justify-content-between col-9 p-5 mt-3">
 
       <div class="col-5">
@@ -111,7 +106,7 @@
   <script src="js/vue.min.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
-  <!-- <script src="js/fontawesome.min.js"></script> -->
+  s
   <script src="js/games.js"></script>
 </body>
 
