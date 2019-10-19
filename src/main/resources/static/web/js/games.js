@@ -3,7 +3,8 @@ var app = new Vue({
   data: {
     gamesList: [],
     leaderboard: [],
-    currentUser: "",
+    currentUser: "Guest",
+    signupForm: false,
 
   },
   methods: {
@@ -16,21 +17,33 @@ var app = new Vue({
 
       $.post("/api/login", { user, pass })
         .done(function() {
-          app.currentUser = user;
-          console.log("logged in!");
+          updateLists();
         })
         .fail(function() {
-          alert("error");
+          alert("Login error");
         })
 
     },
     logout: function() {
       $.post("/api/logout").done(function() {
-        app.currentUser = "";
-        console.log("logged out");
+        updateLists();
       })
+    },
+    toggleSignup: function() {
+      this.signupForm = !this.signupForm;
+    },
+    signUp: function(user, pass, confirm) {
+      if (pass == confirm) {
+        $.post("/api/players", { user: user, pass: pass })
+          .done(function() {
+            this.login(user, pass)
+          })
+      } else {
+        alert("Passwords don't match");
 
-    }
+      }
+
+    },
 
   },
   computed: {
@@ -66,9 +79,16 @@ function fetchMyData(url, headers, dataHolder) {
     .then(response => response.json())
     .then(myJson => {
       app[dataHolder] = myJson;
+      if (dataHolder == "gamesList") { app.currentUser = myJson.player.name ? myJson.player.name : myJson.player; }
     })
-    .catch(err => { `Couldn't retrieve info. please, check this error: ${err}` });
+    .catch(err => { console.log(`Couldn't retrieve info. please, check this error: ${err}`) });
 }
 
-fetchMyData("/api/games", promiseModifiers("GET", "", "no-cors", "default"), "gamesList");
-fetchMyData("/api/leaderboard", promiseModifiers("GET", "", "no-cors", "default"), "leaderboard");
+function updateLists() {
+  fetchMyData("/api/leaderboard", promiseModifiers("GET", "", "no-cors", "default"), "leaderboard");
+  fetchMyData("/api/games", promiseModifiers("GET", "", "no-cors", "default"), "gamesList");
+}
+updateLists();
+$('#dropdown-login').click(function(e) {
+  e.stopPropagation();
+});

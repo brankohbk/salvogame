@@ -16,7 +16,7 @@
   </button>
       <div class="collapse navbar-collapse" id="navbarToggle">
 
-        <div v-if="currentUser==''" class="dropdown  ml-auto mr-5">
+        <div v-if="currentUser==Guest" class="dropdown  ml-auto mr-5">
           <button class="btn btn-info my-2 my-sm-0" type="button" id="loginDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-user-circle fa-lg mr-2"></i> LOG IN</button>
           <div class="dropdown-menu dropdown-menu-right">
             <form class="px-4 py-3">
@@ -37,7 +37,7 @@
           </div>
         </div>
 
-        <div v-if="currentUser!=''" class="dropdown ml-auto mr-5">
+        <div v-if="currentUser!=Guest" class="dropdown ml-auto mr-5">
 
           <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="logedDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-lg mr-2"></i> {{currentUser}} </button>
           <div class="dropdown-menu dropdown-menu-right text-center">
