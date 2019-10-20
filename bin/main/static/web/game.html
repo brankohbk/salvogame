@@ -4,6 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <title>Salvo Game</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/fontawesome.min.css">
+  <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/game.css">
 </head>
 
@@ -16,28 +19,40 @@
   </button>
       <div class="collapse navbar-collapse" id="navbarToggle">
 
-        <div v-if="currentUser==Guest" class="dropdown  ml-auto mr-5">
+        <div v-if="currentUser=='Guest'" class="dropdown  ml-auto mr-5">
           <button class="btn btn-info my-2 my-sm-0" type="button" id="loginDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="far fa-user-circle fa-lg mr-2"></i> LOG IN</button>
-          <div class="dropdown-menu dropdown-menu-right">
+          <div id="dropdown-login" class="dropdown-menu dropdown-menu-right">
             <form class="px-4 py-3">
               <div class="form-group">
                 <label for="user">Email address</label>
-                <input type="email" class="form-control" id="user" placeholder="email@example.com">
+                <input type="email" class="form-control" id="user" placeholder="email@example.com" required>
               </div>
               <div class="form-group">
                 <label for="pass">Password</label>
-                <input type="password" class="form-control" id="pass" placeholder="Password">
+                <input type="password" class="form-control" id="pass" placeholder="Password" required>
               </div>
-              <div class="form-group text-right">
+              <div v-if="signupForm" class="form-group">
+                <label for="passConfirmation">Confirm Password</label>
+                <input type="password" class="form-control" id="passConfirmation" placeholder="Confirm" required>
+              </div>
+              <div v-if="!signupForm" class="form-group text-right">
                 <button type="button" class="btn btn-success" @click="login(user.value,pass.value)">Log me in</button>
+              </div>
+              <div v-if="signupForm" class="form-group text-right">
+                <button type="button" class="btn btn-warning" @click="signUp(user.value,pass.value,passConfirmation.value)">Sign Up</button>
               </div>
             </form>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">New around here? <span class="text-success">Sign up</span></a>
+
+            <p v-if="signupForm" @click="toggleSignup" class="dropdown-item">Already registered? <span class="text-success">Log In!</span></p>
+            <p v-if="!signupForm" @click="toggleSignup" class="dropdown-item">New around here? <span class="text-success">Sign up!</span></p>
+
+
+
           </div>
         </div>
 
-        <div v-if="currentUser!=Guest" class="dropdown ml-auto mr-5">
+        <div v-if="currentUser!='Guest'" class="dropdown ml-auto mr-5">
 
           <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="logedDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-lg mr-2"></i> {{currentUser}} </button>
           <div class="dropdown-menu dropdown-menu-right text-center">
@@ -66,14 +81,17 @@
       <div class="item" id="vs"></div>
       <div class="item" id="gp2"></div>
     </div>
-    <div class="container">
+    <div class="container d-flex justify-content-between">
       <div id="myShips" class="divTableBody"></div>
       <div id="mySalvoes" class="divTableBody"></div>
     </div>
   </div>
 
-  <script src="js/game.js"></script>
+  <script src="js/vue.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+  <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/games.js"></script>
+  <script src="js/game.js"></script>
 </body>
 
 </html>

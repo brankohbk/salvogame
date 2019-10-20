@@ -25,23 +25,25 @@ var app = new Vue({
 
     },
     logout: function() {
-      $.post("/api/logout").done(function() {
-        updateLists();
-      })
+      $.post("/api/logout")
+        .done(function() {
+          updateLists();
+        })
+        .done(function() {
+          window.location = "/web/games.html";
+        })
     },
     toggleSignup: function() {
       this.signupForm = !this.signupForm;
     },
     signUp: function(user, pass, confirm) {
-      if (pass == confirm) {
-        $.post("/api/players", { user: user, pass: pass })
-          .done(function() {
-            this.login(user, pass)
-          })
-      } else {
-        alert("Passwords don't match");
-
+      if (pass != confirm) {
+        return alert("Passwords don't match");
       }
+      $.post("/api/players", { user: user, pass: pass })
+        .done(function() {
+          app.login(user, pass)
+        })
 
     },
 
@@ -88,6 +90,7 @@ function updateLists() {
   fetchMyData("/api/leaderboard", promiseModifiers("GET", "", "no-cors", "default"), "leaderboard");
   fetchMyData("/api/games", promiseModifiers("GET", "", "no-cors", "default"), "gamesList");
 }
+
 updateLists();
 $('#dropdown-login').click(function(e) {
   e.stopPropagation();
