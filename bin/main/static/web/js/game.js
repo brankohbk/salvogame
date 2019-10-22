@@ -103,11 +103,11 @@ outSalvoes = {};
 //hago el fetch
 fetchJson('/api/game_view/' + paramObj(location.search).gp).then(json => {
   json.gamePlayers.map(gamePlayer => {
-    if (gamePlayer.id == paramObj(location.search).gp) {
-      currentPlayer = gamePlayer.player;
+    if (gamePlayer.gpid == paramObj(location.search).gp) {
+      currentPlayer = gamePlayer;
       document.getElementById("gp1").innerHTML = currentPlayer.name + "(you)";
     } else {
-      oponent = gamePlayer.player;
+      oponent = gamePlayer;
       document.getElementById("gp2").innerHTML = oponent.name
     }
     document.getElementById("vs").innerHTML = " vs ";

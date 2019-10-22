@@ -30,21 +30,22 @@ public class SalvoController {
     @Autowired
     private ShipRepository shipRepository;
 
-
     String currentUser="";
 
+
+    //*************************** LISTAR JUEGOS EXISTENTES ***************************
     @RequestMapping("/games")
-    public Map<String, Object> makeGamesList(){
+    public Map<String, Object> makeGamesList(Authentication authentication){
         Map<String,Object> dto = new LinkedHashMap<>();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-             currentUser = authentication.getName();
+
+        if (isGuest(authentication)){
+            dto.put("player","Guest");
+        }else{
+            currentUser = authentication.getName();
             Player player = playerRepository.findByUserName(currentUser);
             dto.put("player",player.PlayerDTO());
         }
-        else {
-            dto.put("player","Guest");
-        }
+
         dto.put("games", gameRepository.findAll()
                 .stream()
                 .map(Game -> Game.makeGameDTO())
@@ -52,10 +53,54 @@ public class SalvoController {
         return dto;
     }
 
+    //*************************** CREAR UN JUEGO NUEVO ***************************
+    @RequestMapping(path= "/games", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> createGame(Authentication authentication){
+        if(isGuest(authentication)){
+            return new ResponseEntity<>(makeMap("error","You must login!"), HttpStatus.FORBIDDEN);
+        }else{
+            Date now= new Date();
+            Game game = new Game(now);
+            gameRepository.save(game);
+            Player player = playerRepository.findByUserName(authentication.getName());
+            GamePlayer gPlayer = new GamePlayer(now,player,game);
+            gamePlayerRepository.save(gPlayer);
+            return new ResponseEntity<>(makeMap("gpid", gPlayer.getId()), HttpStatus.CREATED);
+        }
+    }
+
+    //*************************** INGRESAR A UN JUEGO CREADO ***************************
+    @RequestMapping(path="/games/{id}/players", method = RequestMethod.POST)
+    public ResponseEntity<Map<String,Object>> JoinGame(Authentication authentication,
+                                                       @PathVariable long id){
+        if (authentication.getName().isEmpty()){
+            return  new ResponseEntity<>(makeMap("error","No player logged in."),HttpStatus.UNAUTHORIZED);
+        }
+        Game game =gameRepository.findById(id).orElse(null);
+        if (game==null){
+            return new ResponseEntity<>(makeMap("error","No such game."),HttpStatus.CONFLICT);
+        }
+        if (game.getGamePlayers().stream().map(gp -> gp.getPlayer().getUserName()).collect(Collectors.toList()).contains(authentication.getName())){
+            return new ResponseEntity<>(makeMap("error","User already in game"), HttpStatus.FORBIDDEN);
+        }
+        if (game.getGamePlayers().size()==2){
+            return new ResponseEntity<>(makeMap("error","Game is full."),HttpStatus.FORBIDDEN);
+        }
+
+        Date now= new Date();
+        Player player = playerRepository.findByUserName(authentication.getName());
+
+        GamePlayer gp = new GamePlayer(now,player,game);
+        gamePlayerRepository.save(gp);
+
+        return new ResponseEntity<>(makeMap("gpid", gp.getId()),HttpStatus.CREATED);
+    }
+
+    //*************************** TRAE PUNTAJE Y ARMA LEADERBOARD ***************************
     @RequestMapping("/leaderboard")
     public Map<String, Object> makeLeaderboard(){
 
-        //List<Player> playerList= playerRepository.findAll();
+
         Map<String,Object> dto = new LinkedHashMap<>();
         dto.put("players", playerRepository.findAll()
                         .stream()
@@ -68,6 +113,7 @@ public class SalvoController {
         return dto;
     }
 
+    //*************************** TRAER POSICIONES DE BARCOS Y SALVOS ***************************
     @RequestMapping("/game_view/{nn}")
     public Map<String,Object> getGameViewByGamePlayerId(@PathVariable Long nn){
         GamePlayer gamePlayer = gamePlayerRepository.findById(nn).get();
@@ -104,6 +150,7 @@ public class SalvoController {
         return dto;
     }
 
+    //*************************** CREAR JUGADOR (SIGNUP) ***************************
     @RequestMapping(path = "/players", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> createUser(@RequestParam String user, @RequestParam String pass) {
         if (user.isEmpty()) {
@@ -121,6 +168,8 @@ public class SalvoController {
     }
 
 
+
+    //*************************** FUNCIONES AUXILIARES ***************************
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
@@ -129,6 +178,10 @@ public class SalvoController {
         Map<String, Object> map = new HashMap<>();
         map.put(key, value);
         return map;
+    }
+
+    private boolean isGuest(Authentication authentication) {
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
 
 

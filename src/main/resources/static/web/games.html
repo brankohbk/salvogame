@@ -85,8 +85,9 @@
                   Juego creado: {{formatDate(game.created)}} 
                 </p> 
             <p>              
-              Jugadores: <span v-for='gameplayer in game.gamePlayers'> {{gameplayer.player.name}}, </span>
+              Jugadores: <span v-for='player in game.players'> {{player.name}}, </span>
             </p>
+            <a :href="'game.html?gp='+game.id" class="btn btn-warning">JOIN GAME</a>
           </li>
         </template>
         </ol>
