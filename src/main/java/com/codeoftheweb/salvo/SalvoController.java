@@ -96,6 +96,18 @@ public class SalvoController {
         return new ResponseEntity<>(makeMap("gpid", gp.getId()),HttpStatus.CREATED);
     }
 
+    //*************************** TRAE LOS JUGADORES DE UN DETERMINADO JUEGO***************************
+    @RequestMapping(path="/games/{id}/players")
+    public Map<String,Object> PlayersInGame(@PathVariable long id){
+        Game game =gameRepository.findById(id).orElse(null);
+
+        Map<String,Object> dto = new LinkedHashMap<String, Object>();
+
+        dto.put("players", game.getGamePlayersList(game.getGamePlayers()));
+        return dto;
+
+    }
+
     //*************************** TRAE PUNTAJE Y ARMA LEADERBOARD ***************************
     @RequestMapping("/leaderboard")
     public Map<String, Object> makeLeaderboard(){
