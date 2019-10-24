@@ -12,10 +12,12 @@
 <body>
   <div id="app">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark mb-3">
+
       <a class="navbar-brand" href="#">SALVO GAME</a>
+
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+          <span class="navbar-toggler-icon"></span>
+        </button>
       <div class="collapse navbar-collapse" id="navbarToggle">
 
         <div v-if="currentUser=='Guest'" class="dropdown  ml-auto mr-5">
@@ -51,9 +53,9 @@
           </div>
         </div>
 
-        <div v-if="currentUser!='Guest'" class="dropdown ml-auto mr-5">
-
-          <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="logedDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-lg mr-2"></i> {{currentUser}} </button>
+        <div v-if="currentUser!='Guest'" class="dropdown justify-content-end ml-auto mr-5">
+          <button @click="createGame" v-if="currentUser!='Guest'" class="btn btn-warning my-2 my-sm-0 ml-auto" type="button" id="createGame"><i class="fas fa-gamepad fa-lg mr-2"></i> Create Game</button>
+          <button class="btn btn-outline-success my-2 my-sm-0 ml-auto" type="button" id="logedDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle fa-lg mr-2"></i> {{currentUser}} </button>
           <div class="dropdown-menu dropdown-menu-right text-center">
             <div>
               <div class="form-group mx-auto text-center">
@@ -69,9 +71,8 @@
             <button type="button" class="btn btn-danger mx-auto center" @click="logout">Log out</button>
           </div>
         </div>
-
-
       </div>
+
       <!-- END OF NAVBAR -->
     </nav>
     <main class="container-fluid d-flex justify-content-between col-9 p-5 mt-3">
@@ -79,12 +80,12 @@
       <div class="col-5">
         <ol class="list-group list-group-flush">
           <template v-for='game in gamesList.games'>
-              
-              <li class="list-group-item">
+            
+            <li class="list-group-item">
                 <p>
                   Juego creado: {{formatDate(game.created)}} 
                 </p> 
-            <p>              
+                <p>              
               Jugadores: <span v-for='player in game.players'> {{player.name}}, </span>
             </p>
             <a :href="'game.html?gp='+game.id" class="btn btn-warning">JOIN GAME</a>

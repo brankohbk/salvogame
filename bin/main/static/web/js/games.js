@@ -14,7 +14,6 @@ var app = new Vue({
       return formated;
     },
     login: function(user, pass) {
-
       $.post("/api/login", { user, pass })
         .done(function() {
           updateLists();
@@ -22,7 +21,6 @@ var app = new Vue({
         .fail(function() {
           alert("Login error");
         })
-
     },
     logout: function() {
       $.post("/api/logout")
@@ -44,7 +42,16 @@ var app = new Vue({
         .done(function() {
           app.login(user, pass)
         })
+    },
+    createGame: function() {
+      $.post("/api/games")
+        .done(function(data) {
+          window.location = "/web/game.html?gp=" + data.gpid;
+        })
+        .fail(function() {
 
+          alert("something failed")
+        })
     },
 
   },

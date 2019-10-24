@@ -73,7 +73,7 @@ public class SalvoController {
     @RequestMapping(path="/games/{id}/players", method = RequestMethod.POST)
     public ResponseEntity<Map<String,Object>> JoinGame(Authentication authentication,
                                                        @PathVariable long id){
-        if (authentication.getName().isEmpty()){
+        if (isGuest(authentication)){
             return  new ResponseEntity<>(makeMap("error","No player logged in."),HttpStatus.UNAUTHORIZED);
         }
         Game game =gameRepository.findById(id).orElse(null);
