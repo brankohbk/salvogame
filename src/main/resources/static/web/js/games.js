@@ -6,6 +6,7 @@ var app = new Vue({
     currentUser: "Guest",
     signupForm: false,
 
+
   },
   methods: {
     formatDate: function(created) {
@@ -46,13 +47,34 @@ var app = new Vue({
     createGame: function() {
       $.post("/api/games")
         .done(function(data) {
+          console.log(data)
           window.location = "/web/game.html?gp=" + data.gpid;
         })
-        .fail(function() {
-
-          alert("something failed")
+        .fail(function(data) {
+          console.log(data)
+          alert("Something failed! Error: " + data.responseJSON.error)
         })
     },
+    joinGame: function(game) {
+      $.post("/api/games/" + game + "/players")
+        .done(function(data) {
+          console.log(data)
+          window.location = "/web/game.html?gp=" + data.gpid;
+        })
+        .fail(function(data) {
+          console.log(data)
+          alert("Something failed! Error: " + data.responseJSON.error)
+        })
+    },
+    // joinButton: function(juego) {
+    //   console.log(juego);
+    //   var containsPlayer = juego.players.array.forEach(player => { if (player == this.currentUser) { return true } });
+    //   if (containsPlayer == false) {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // }
 
   },
   computed: {
@@ -62,7 +84,7 @@ var app = new Vue({
       } else {
         return "fas fa-user";
       }
-    }
+    },
   }
 });
 
@@ -99,6 +121,7 @@ function updateLists() {
 }
 
 updateLists();
+
 $('#dropdown-login').click(function(e) {
   e.stopPropagation();
 });

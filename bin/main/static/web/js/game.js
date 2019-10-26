@@ -87,35 +87,27 @@ function enemySalvoes(json) {
     })
 }
 
+//Fetch de datos
+$.post('/api/game_view/' + paramObj(location.search).gp)
+  .done(function(data) {
+    json = data.data
+    json.gamePlayers.map(gamePlayer => {
+      if (gamePlayer.gpid == paramObj(location.search).gp) {
+        currentPlayer = gamePlayer;
+        document.getElementById("gp1").innerHTML = currentPlayer.name + "(you)";
+      } else {
+        oponent = gamePlayer;
+        document.getElementById("gp2").innerHTML = oponent.name
+      }
+      document.getElementById("vs").innerHTML = " vs ";
+      showShips(json);
+      mySalvoes(json);
+      enemySalvoes(json);
+      outSalvoes = json.salvoes;
 
-//fetch que me da el json (response.json)
-function fetchJson(url, init) {
-  return fetch(url, init).then(function(response) {
-    if (response.ok) {
-      return response.json();
-    }
-    throw new Error(response.statusText);
-  });
-}
-
-outSalvoes = {};
-
-//hago el fetch
-fetchJson('/api/game_view/' + paramObj(location.search).gp).then(json => {
-  json.gamePlayers.map(gamePlayer => {
-    if (gamePlayer.gpid == paramObj(location.search).gp) {
-      currentPlayer = gamePlayer;
-      document.getElementById("gp1").innerHTML = currentPlayer.name + "(you)";
-    } else {
-      oponent = gamePlayer;
-      document.getElementById("gp2").innerHTML = oponent.name
-    }
-    document.getElementById("vs").innerHTML = " vs ";
-    showShips(json);
-    mySalvoes(json);
-    enemySalvoes(json);
-    outSalvoes = json.salvoes;
-
-
-  });
-}).catch(function(error) { console.log("Request failed: " + error.message); });
+    })
+  })
+  .fail(function(data) {
+    console.log(data)
+    alert("Something failed! Error: " + data.responseJSON.error)
+  })

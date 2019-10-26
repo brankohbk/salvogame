@@ -127,9 +127,11 @@ public class SalvoController {
 
     //*************************** TRAER POSICIONES DE BARCOS Y SALVOS ***************************
     @RequestMapping("/game_view/{nn}")
-    public Map<String,Object> getGameViewByGamePlayerId(@PathVariable Long nn){
+    public ResponseEntity<Map<String,Object>> getGameViewByGamePlayerId(@PathVariable Long nn,
+                                                        Authentication authentication){
         GamePlayer gamePlayer = gamePlayerRepository.findById(nn).get();
-
+        Player player = playerRepository.findByUserName(authentication.getName());
+        if(gamePlayer.getPlayer()==player){
         Map<String,Object> dto = new LinkedHashMap<>();
         dto.put("id", gamePlayer.getGame().getId());
         dto.put("created",gamePlayer.getGame().getCreationDate());
@@ -146,7 +148,6 @@ public class SalvoController {
                         .map(ship -> ship.ShipDTO())
                         .collect(Collectors.toList())
                 );
-
         dto.put("salvoes",
                 gamePlayer.getGame()
                         .getGamePlayers()
@@ -158,8 +159,13 @@ public class SalvoController {
                                 )
                                 .collect(Collectors.toList())
         );
+            return new ResponseEntity<>(makeMap("data", dto), HttpStatus.OK);
+    }
+        else {
 
-        return dto;
+            return new ResponseEntity<>(makeMap("error", "Not your game view... ¬¬ whatcha trynna do, dude?"), HttpStatus.UNAUTHORIZED);
+        }
+
     }
 
     //*************************** CREAR JUGADOR (SIGNUP) ***************************
