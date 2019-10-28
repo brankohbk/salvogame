@@ -5,9 +5,9 @@ var app = new Vue({
     leaderboard: [],
     currentUser: "Guest",
     signupForm: false,
-
-
   },
+
+
   methods: {
     formatDate: function(created) {
       let input = new Date(created)
@@ -25,9 +25,6 @@ var app = new Vue({
     },
     logout: function() {
       $.post("/api/logout")
-        .done(function() {
-          updateLists();
-        })
         .done(function() {
           window.location = "/web/games.html";
         })
@@ -47,49 +44,67 @@ var app = new Vue({
     createGame: function() {
       $.post("/api/games")
         .done(function(data) {
-          console.log(data)
           window.location = "/web/game.html?gp=" + data.gpid;
         })
         .fail(function(data) {
-          console.log(data)
           alert("Something failed! Error: " + data.responseJSON.error)
         })
     },
     joinGame: function(game) {
       $.post("/api/games/" + game + "/players")
         .done(function(data) {
-          console.log(data)
           window.location = "/web/game.html?gp=" + data.gpid;
         })
         .fail(function(data) {
-          console.log(data)
           alert("Something failed! Error: " + data.responseJSON.error)
         })
     },
-    // joinButton: function(juego) {
-    //   console.log(juego);
-    //   var containsPlayer = juego.players.array.forEach(player => { if (player == this.currentUser) { return true } });
-    //   if (containsPlayer == false) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // }
-
-  },
-  computed: {
-    userIcon: function() {
-      if (this.currentUser == "") {
-        return "far fa-user";
+    joinButton: function(juego) {
+      var containsPlayer = false;
+      var playersInGame = 0;
+      juego.players.forEach(player => {
+        playersInGame++;
+        if (player.name == app.currentUser) {
+          containsPlayer = true;
+        }
+      });
+      if (containsPlayer || this.currentUser == "Guest" || playersInGame > 1) {
+        return false;
       } else {
-        return "fas fa-user";
+        return true;
       }
     },
-  }
+    enterGame: function(game) {
+      $.get("/api/games/" + game + "/players")
+        .done(function(data) {
+          var filtered = data.players.filter(player => player.name == app.currentUser);
+          window.location = "/web/game.html?gp=" + filtered[0].gpid;
+        })
+        .fail(function(data) {
+          alert("Something failed! Error: " + data.responseJSON.error)
+        })
+    },
+    reEnterButton: function(juego) {
+      var containsPlayer = false;
+      juego.players.forEach(player => {
+        if (player.name == app.currentUser) {
+          containsPlayer = true;
+        }
+      });
+      if (containsPlayer && this.currentUser != "Guest") {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
 });
 
-function promiseModifiers(method, data, mode, cache) {
+// ******************** FUNCIONES AUXILIARES ********************
+// **************************************************************
 
+// ******************** HEADERS PARA EL FETCH ********************
+function fetchHeaders(method, data, mode, cache) {
   headers = method == "POST" ? {
     method: method,
     body: JSON.stringify(data),
@@ -103,7 +118,7 @@ function promiseModifiers(method, data, mode, cache) {
   return headers;
 };
 
-
+// ******************** REALIZA EL FETCH Y NO METE EN UN ARRAY DE LA APP ********************
 function fetchMyData(url, headers, dataHolder) {
   let promise = fetch(url, headers);
   promise
@@ -112,14 +127,16 @@ function fetchMyData(url, headers, dataHolder) {
       app[dataHolder] = myJson;
       if (dataHolder == "gamesList") { app.currentUser = myJson.player.name ? myJson.player.name : myJson.player; }
     })
-    .catch(err => { console.log(`Couldn't retrieve info. please, check this error: ${err}`) });
+    .catch(err => { alert(`Couldn't retrieve info. please, check this error: ${err}`) });
 }
 
+// ******************** LLAMADO AL FETCH ********************
 function updateLists() {
-  fetchMyData("/api/leaderboard", promiseModifiers("GET", "", "no-cors", "default"), "leaderboard");
-  fetchMyData("/api/games", promiseModifiers("GET", "", "no-cors", "default"), "gamesList");
+  fetchMyData("/api/leaderboard", fetchHeaders("GET", "", "no-cors", "default"), "leaderboard");
+  fetchMyData("/api/games", fetchHeaders("GET", "", "no-cors", "default"), "gamesList");
 }
 
+// ******************** ACTUALIZAR LAS LISTAS ********************
 updateLists();
 
 $('#dropdown-login').click(function(e) {
