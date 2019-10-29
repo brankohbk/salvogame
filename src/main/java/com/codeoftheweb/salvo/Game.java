@@ -63,6 +63,7 @@ public class Game {
     public List<Map<String,Object>> getGamePlayersList(Set<GamePlayer> gamePlayers){
         return gamePlayers
                 .stream()
+                .sorted(Comparator.comparingLong(GamePlayer::getId))
                 .map(GamePlayer -> GamePlayer.makeGamePlayerDTO())
                 .collect(Collectors.toList());
     }

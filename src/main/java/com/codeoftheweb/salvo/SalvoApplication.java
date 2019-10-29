@@ -117,6 +117,9 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         String destroyerType = "Destroyer";
         String submarineType ="Submarine";
         String patrolType="Patrol Boat";
+        String battleshipType ="Battleship";
+        String aircraftCarrierType="Aircraft Carrier";
+
 
         //Ship LOCATIONS
         Set<String> l1 = new HashSet<>(Arrays.asList("H2","H3","H4"));

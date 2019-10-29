@@ -10,6 +10,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -48,6 +49,7 @@ public class SalvoController {
 
         dto.put("games", gameRepository.findAll()
                 .stream()
+                .sorted(Comparator.comparingLong(Game::getId))
                 .map(Game -> Game.makeGameDTO())
                 .collect(Collectors.toList()));
         return dto;
@@ -184,6 +186,64 @@ public class SalvoController {
         Player newPlayer = playerRepository.save(new Player(user, passwordEncoder().encode(pass)));
         return new ResponseEntity<>(makeMap("Player created successfully. ID", newPlayer.getId()), HttpStatus.CREATED);
     }
+
+    //*************************** LISTA DE LOS BARCOS ACTUALES PARA UN DETERMINADO GAMEPLAYER ***************************
+    @RequestMapping(path = "/games/players/{id}/ships",method = RequestMethod.GET)
+    public ResponseEntity<Map<String,Object>> listShipsByGamePlayerId(Authentication authentication,
+                                                                      @PathVariable Long id){
+        if (isGuest(authentication)){
+            return new ResponseEntity<>(makeMap("error", "Please, log in."), HttpStatus.UNAUTHORIZED);
+        }
+        GamePlayer gamePlayer = gamePlayerRepository.findById(id).get();
+        Player player = playerRepository.findByUserName(authentication.getName());
+        if(gamePlayer.getPlayer()==player){
+            Map<String,Object> dto = new LinkedHashMap<>();
+            dto.put("ships",
+                    gamePlayer.getShips()
+                            .stream()
+                            .sorted(Comparator.comparingLong(Ship::getId))
+                            .map(ship -> ship.ShipDTO())
+                            .collect(Collectors.toList())
+            );
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(makeMap("error", "Not your game view... ¬¬"), HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    //*************************** GUARDA LOS BARCOS DE UN GAMEPLAYER ***************************
+    @RequestMapping(path = "/games/players/{id}/ships",method = RequestMethod.POST)
+    public ResponseEntity<Map<String,Object>> saveShipsByGamePlayerId(Authentication authentication,
+                                                                      @PathVariable Long id,
+                                                                      @RequestBody List<Ship> ships){
+        if (isGuest(authentication)){
+            return new ResponseEntity<>(makeMap("error", "Please, log in."), HttpStatus.UNAUTHORIZED);
+        }
+        GamePlayer gamePlayer = gamePlayerRepository.findById(id).orElse(null);
+        if(gamePlayer==null){
+            return new ResponseEntity<>(makeMap("error", "That GamePlayer doesn´t exist."), HttpStatus.UNAUTHORIZED);
+
+        }
+        Player player = playerRepository.findByUserName(authentication.getName());
+        if(gamePlayer.getPlayer()!=player){
+            return new ResponseEntity<>(makeMap("error", "Not your game view... ¬¬"+gamePlayer), HttpStatus.UNAUTHORIZED);
+        }
+        if (gamePlayer.getShips().isEmpty()){
+            ships.forEach(ship -> {
+                ship.setGamePlayer(gamePlayer);
+                shipRepository.save(ship);
+            });
+            return new ResponseEntity<>(makeMap("success","Ships saved."), HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity<>(makeMap("error", "This player already placed his ships"), HttpStatus.FORBIDDEN);
+        }
+
+
+
+    }
+
+
 
 
 

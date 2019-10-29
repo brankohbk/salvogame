@@ -34,9 +34,9 @@ var app = new Vue({
     },
     signUp: function(user, pass, confirm) {
       if (pass != confirm) {
-        return alert("Passwords don't match");
+        return alert("Password and confirmation must be the same.");
       }
-      $.post("/api/players", { user: user, pass: pass })
+      $.post("/api/players", { user, pass })
         .done(function() {
           app.login(user, pass)
         })
