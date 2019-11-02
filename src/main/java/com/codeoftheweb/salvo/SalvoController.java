@@ -229,17 +229,14 @@ public class SalvoController {
         if(gamePlayer.getPlayer()!=player){
             return new ResponseEntity<>(makeMap("error", "Not your game view... ¬¬"+gamePlayer), HttpStatus.UNAUTHORIZED);
         }
-        if (gamePlayer.getShips().isEmpty()){
-            ships.forEach(ship -> {
-                ship.setGamePlayer(gamePlayer);
-                shipRepository.save(ship);
-            });
-            return new ResponseEntity<>(makeMap("success","Ships saved."), HttpStatus.CREATED);
-        }else{
+        if (!gamePlayer.getShips().isEmpty()){
             return new ResponseEntity<>(makeMap("error", "This player already placed his ships"), HttpStatus.FORBIDDEN);
         }
-
-
+        ships.forEach(ship -> {
+            ship.setGamePlayer(gamePlayer);
+            shipRepository.save(ship);
+        });
+        return new ResponseEntity<>(makeMap("success","Ships saved."), HttpStatus.CREATED);
 
     }
 

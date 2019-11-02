@@ -96,9 +96,31 @@ var app = new Vue({
       } else {
         return false;
       }
+    },
+    // ******************** MANDAR SHIPS AL BACKEND ********************
+    saveShips: function(ships) {
+
+      let gpid = paramObj(location.search).gp;
+      var url = "/api/games/players/" + gpid + "/ships";
+      var data = ships;
+
+      fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => console.log('Success:', response))
+        .then(function() {
+          // funcion en game.js
+          fetchShips();
+        });
     }
   },
 });
+
 
 // ******************** FUNCIONES AUXILIARES ********************
 // **************************************************************
@@ -118,7 +140,7 @@ function fetchHeaders(method, data, mode, cache) {
   return headers;
 };
 
-// ******************** REALIZA EL FETCH Y NO METE EN UN ARRAY DE LA APP ********************
+// ******************** REALIZA EL FETCH Y LO METE EN UN ARRAY DE LA APP ********************
 function fetchMyData(url, headers, dataHolder) {
   let promise = fetch(url, headers);
   promise
@@ -142,3 +164,9 @@ updateLists();
 $('#dropdown-login').click(function(e) {
   e.stopPropagation();
 });
+
+
+
+//let gpid = 1;
+// var data = [{ "shipType": "destroyer", "shipLocations": ["A1", "B1", "C1"] },
+//             { "shipType": "patrol boat", "shipLocations": ["H5", "H6"] }];
