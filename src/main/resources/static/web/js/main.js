@@ -117,7 +117,29 @@ var app = new Vue({
           // funcion en game.js
           fetchShips();
         });
-    }
+    },
+    // ******************** MANDAR SALVOES AL BACKEND ********************
+    saveSalvoes: function(salvoes) {
+
+      let gpid = paramObj(location.search).gp;
+      var url = "/api/games/players/" + gpid + "/salvoes";
+      var data = salvoes;
+
+      fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => console.log('Message:', response))
+        .then(function() {
+          // funcion en game.js
+          fetchShips();
+        });
+    },
+
   },
 });
 
@@ -170,3 +192,5 @@ $('#dropdown-login').click(function(e) {
 //let gpid = 1;
 // var data = [{ "shipType": "destroyer", "shipLocations": ["A1", "B1", "C1"] },
 //             { "shipType": "patrol boat", "shipLocations": ["H5", "H6"] }];
+
+// var data = { "turn": 1, "salvoLocations": ["A1", "B1", "C1"]} ;

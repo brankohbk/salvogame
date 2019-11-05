@@ -108,7 +108,10 @@ function fetchShips() {
       })
     })
     .fail(function(data) {
-      console.log(data)
-      alert("Something failed! Error: " + data.responseJSON.error)
+      console.log(data);
+      alert("Something failed! Error: " + data.responseJSON.error);
+      window.location = "/web/games.html";
     })
 }
+
+fetchShips();
