@@ -266,6 +266,20 @@ public class SalvoController {
         );
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
+    //*************************** DADO UN GAMEPLAYER AVERIGUA EL OPONENTE ***************************
+    @RequestMapping(path = "/gameplayers/{gpId}/opponent", method = RequestMethod.GET)
+    public GamePlayer getOpponent(@PathVariable Long gpId){
+        GamePlayer currentPlayer, opponent;
+        Game game;
+        currentPlayer= gamePlayerRepository.findById(gpId).get();
+        game=currentPlayer.getGame();
+        opponent=game.getGamePlayers()
+                .stream()
+                .filter(gp -> gp.getId()!=gpId).findFirst().get();
+
+        return opponent;
+    }
+
     //*************************** GUARDA LOS TIROS (SALVOES) DE UN GAMEPLAYER EN LA BBDD ***************************
     @RequestMapping(path = "/games/players/{id}/salvoes",method = RequestMethod.POST)
     public ResponseEntity<Map<String,Object>> saveSalvoesByGamePlayerId(Authentication authentication,
@@ -283,6 +297,7 @@ public class SalvoController {
         if(gamePlayer.getPlayer()!=player){
             return new ResponseEntity<>(makeMap("error", "Not your game view... ¬¬ "+gamePlayer), HttpStatus.UNAUTHORIZED);
         }
+
 
 
         if (gamePlayer.getSalvoes().stream().filter(salvo1 -> salvo1.getTurn() == salvo.getTurn()).findFirst().orElse(null) != null) {
