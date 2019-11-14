@@ -243,8 +243,8 @@ public class SalvoController {
     }
 
     //*************************** OBTIENE LOS TIROS (SALVOES) DE UN GAMEPLAYER ***************************
-    @RequestMapping(path = "/games/players/{id}/salvoes",method = RequestMethod.GET)
-    public ResponseEntity<Map<String,Object>> listSalvoesByGamePlayerId(Authentication authentication,
+    @RequestMapping(path = "/games/players/{id}/salvos",method = RequestMethod.GET)
+    public ResponseEntity<Map<String,Object>> listSalvosByGamePlayerId(Authentication authentication,
                                                                       @PathVariable Long id){
         if (isGuest(authentication)){
             return new ResponseEntity<>(makeMap("error", "Please, log in."), HttpStatus.UNAUTHORIZED);
@@ -257,7 +257,7 @@ public class SalvoController {
 
         }
         Map<String,Object> dto = new LinkedHashMap<>();
-        dto.put("salvoes",
+        dto.put("salvos",
                 gamePlayer.getSalvoes()
                         .stream()
                         .sorted(Comparator.comparingLong(Salvo::getId))
@@ -268,21 +268,33 @@ public class SalvoController {
     }
     //*************************** DADO UN GAMEPLAYER AVERIGUA EL OPONENTE ***************************
     @RequestMapping(path = "/gameplayers/{gpId}/opponent", method = RequestMethod.GET)
-    public GamePlayer getOpponent(@PathVariable Long gpId){
-        GamePlayer currentPlayer, opponent;
-        Game game;
-        currentPlayer= gamePlayerRepository.findById(gpId).get();
-        game=currentPlayer.getGame();
-        opponent=game.getGamePlayers()
-                .stream()
-                .filter(gp -> gp.getId()!=gpId).findFirst().get();
+    public ResponseEntity<Map<String,Object>> getOpponent(@PathVariable Long gpId){
+        if (gamePlayerRepository.findById(gpId).orElse(null)==null){
+            return new ResponseEntity<>(makeMap("error", "You don't have any game yet. Please, create a new game."), HttpStatus.PRECONDITION_REQUIRED);
+        }
+        GamePlayer opponent=findOpponent(gpId);
+        if (opponent==null){
+            return new ResponseEntity<>(makeMap("error", "You don't have any opponent yet."), HttpStatus.PRECONDITION_REQUIRED);
+        }
 
-        return opponent;
+
+        Map<String,Object> dto = new LinkedHashMap<>();
+        dto.put("opponent",opponent.getPlayer().getUserName());
+        dto.put("opponentSalvos",
+                opponent.getSalvoes()
+                        .stream()
+                        .sorted(Comparator.comparingLong(Salvo::getId))
+                        .map(salvo -> salvo.SalvoDTO())
+                        .collect(Collectors.toList())
+        );
+        dto.put("lastTurn",lastTurn(opponent)
+        );
+        return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
     //*************************** GUARDA LOS TIROS (SALVOES) DE UN GAMEPLAYER EN LA BBDD ***************************
-    @RequestMapping(path = "/games/players/{id}/salvoes",method = RequestMethod.POST)
-    public ResponseEntity<Map<String,Object>> saveSalvoesByGamePlayerId(Authentication authentication,
+    @RequestMapping(path = "/games/players/{id}/salvos",method = RequestMethod.POST)
+    public ResponseEntity<Map<String,Object>> saveSalvosByGamePlayerId(Authentication authentication,
                                                                       @PathVariable Long id,
                                                                       @RequestBody Salvo salvo){
         if (isGuest(authentication)){
@@ -299,28 +311,29 @@ public class SalvoController {
         }
 
 
-
-        if (gamePlayer.getSalvoes().stream().filter(salvo1 -> salvo1.getTurn() == salvo.getTurn()).findFirst().orElse(null) != null) {
-
-            return new ResponseEntity<>(makeMap("error", "You have already fired your salvoes for this turn. Turn: "
-                    + makeMap("Salvoes",salvoRepository.findByTurn(salvo.getTurn())
-                    .stream()
-                    .map(sal->sal.getGamePlayer().getPlayer().getUserName())
-                    .collect(Collectors.toList())
-                        )
-                    )
-                    , HttpStatus.FORBIDDEN);
-
+        //*********** VERIFICA QUE NO SE HAYAN TIRADO TIROS ESTE TURNO
+        int lastTurn=lastTurn(gamePlayer);
+        GamePlayer opponent = findOpponent(gamePlayer.getId());
+        if(opponent!=null){
+            //*********** VERIFICA QUE EXISTA UN OPONENTE
+            int opponentLastTurn=lastTurn(opponent);
+            if (lastTurn > opponentLastTurn) {
+                return new ResponseEntity<>(makeMap("error", "You have already fired your salvoes for this turn."), HttpStatus.FORBIDDEN);
+            }
 
         }
+        //*********** VERIFICA QUE NO SE HAYAN TIRADO MAS DE 5 TIROS
+
         if (salvo.getSalvoLocations().size() > 5){
-            return new ResponseEntity<>(makeMap("error", "Too much salvoes this turn. You can shot up to 5 salvoes each turn."), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(makeMap("error", "Too much salvos this turn. You can shot up to 5 salvos each turn."), HttpStatus.FORBIDDEN);
         }
 
+        //*********** GUARDA LOS TIROS EN LA BBDD
         salvo.setGamePlayer(gamePlayer);
+        salvo.setTurn(lastTurn + 1);
         salvoRepository.save(salvo);
 
-        return new ResponseEntity<>(makeMap("success","Salvoes saved."), HttpStatus.CREATED);
+        return new ResponseEntity<>(makeMap("success","Salvos saved."), HttpStatus.CREATED);
     }
 
 
@@ -340,6 +353,27 @@ public class SalvoController {
     private boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
+
+    private int lastTurn(GamePlayer gp){
+        return gp.getSalvoes()
+                .stream()
+                .mapToInt(salvo -> salvo.getTurn())
+                .max()
+                .orElse(0)
+//                .orElseThrow(NoSuchElementException::new)
+                ;
+    }
+
+    private GamePlayer findOpponent(Long gpId){
+        GamePlayer currentPlayer, opponent;
+        currentPlayer= gamePlayerRepository.findById(gpId).orElse(null);
+        opponent=currentPlayer.getGame().getGamePlayers()
+                .stream()
+                .filter(gp -> gp.getId()!=gpId).findFirst().orElse(null);
+        return opponent;
+    }
+
+
 
 
 

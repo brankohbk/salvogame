@@ -119,11 +119,12 @@ var app = new Vue({
         });
     },
     // ******************** MANDAR SALVOES AL BACKEND ********************
-    saveSalvoes: function(salvoes) {
+    saveSalvoes: function(salvos) {
 
       let gpid = paramObj(location.search).gp;
-      var url = "/api/games/players/" + gpid + "/salvoes";
-      var data = salvoes;
+      var url = "/api/games/players/" + gpid + "/salvos";
+      var data = salvos;
+
 
       fetch(url, {
           method: 'POST',
