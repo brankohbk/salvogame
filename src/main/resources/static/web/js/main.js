@@ -6,8 +6,6 @@ var app = new Vue({
     currentUser: "Guest",
     signupForm: false,
   },
-
-
   methods: {
     formatDate: function(created) {
       let input = new Date(created)
@@ -118,7 +116,7 @@ var app = new Vue({
           fetchShips();
         });
     },
-    // ******************** MANDAR SALVOES AL BACKEND ********************
+    // ******************** MANDAR SALVOS AL BACKEND ********************
     saveSalvoes: function(salvos) {
 
       let gpid = paramObj(location.search).gp;

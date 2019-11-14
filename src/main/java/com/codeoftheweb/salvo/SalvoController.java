@@ -292,7 +292,7 @@ public class SalvoController {
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
 
-    //*************************** GUARDA LOS TIROS (SALVOES) DE UN GAMEPLAYER EN LA BBDD ***************************
+    //*************************** GUARDA LOS TIROS (SALVOS) DE UN GAMEPLAYER EN LA BBDD ***************************
     @RequestMapping(path = "/games/players/{id}/salvos",method = RequestMethod.POST)
     public ResponseEntity<Map<String,Object>> saveSalvosByGamePlayerId(Authentication authentication,
                                                                       @PathVariable Long id,
@@ -318,7 +318,7 @@ public class SalvoController {
             //*********** VERIFICA QUE EXISTA UN OPONENTE
             int opponentLastTurn=lastTurn(opponent);
             if (lastTurn > opponentLastTurn) {
-                return new ResponseEntity<>(makeMap("error", "You have already fired your salvoes for this turn."), HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>(makeMap("error", "You have already fired your salvos for this turn."), HttpStatus.FORBIDDEN);
             }
 
         }

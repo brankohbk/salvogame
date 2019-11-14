@@ -114,4 +114,20 @@ function fetchShips() {
     })
 }
 
+
+
 fetchShips();
+
+
+var game = new Vue({
+  el: "#game",
+  data: {
+    turns: [
+      { "turn": 1, "hitted": ["Patrol", "Destroyer"], "left": 3 },
+      { "turn": 2, "hitted": ["Patrol"], "left": 2 },
+      { "turn": 1, "hitted": ["Destroyer"], "left": 3 },
+      { "turn": 1, "hitted": ["Destroyer"], "left": 2 },
+    ],
+  },
+  methods: {},
+});
