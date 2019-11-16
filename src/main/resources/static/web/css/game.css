@@ -43,3 +43,19 @@
 .mySalvo {
   background: #b4d455;
 }
+
+.sunk {
+  background: linear-gradient(to right, transparent 50%, #b4d455 50%);
+  background-position: 0;
+  background-size: 200%;
+  animation: backgroundSlide 3s infinite;
+}
+
+@keyframes backgroundSlide {
+  50% {
+    background-position: -100%;
+  }
+  100% {
+    background-position: -200%;
+  }
+}

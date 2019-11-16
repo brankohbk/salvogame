@@ -123,10 +123,10 @@ var game = new Vue({
   el: "#game",
   data: {
     turns: [
-      { "turn": 1, "hitted": ["Patrol", "Destroyer"], "left": 3 },
-      { "turn": 2, "hitted": ["Patrol"], "left": 2 },
-      { "turn": 1, "hitted": ["Destroyer"], "left": 3 },
-      { "turn": 1, "hitted": ["Destroyer"], "left": 2 },
+      { "turn": 1, "hitted": [{ shipType: "Patrol", hits: 1, sunk: false }, { shipType: "destroyer", hits: 1, sunk: false }], "left": 3 },
+      { "turn": 2, "hitted": [{ shipType: "Patrol", hits: 1, sunk: true }], "left": 2 },
+      { "turn": 3, "hitted": [{ shipType: "destroyer", hits: 1, sunk: false }], "left": 2 },
+      { "turn": 4, "hitted": [{ shipType: "destroyer", hits: 1, sunk: true }], "left": 1 },
     ],
   },
   methods: {},

@@ -108,7 +108,12 @@
               <template v-for="turn in turns">
                 <tr>
                   <td>{{turn.turn}} </td>
-                  <td><span v-for="hit in turn.hitted">{{hit}}, </span></td>
+                  <td>
+                  
+
+                    <span v-for="hit in turn.hitted">{{hit.shipType}} hitted {{hit.hits}} times <span class="sunk" v-if="hit.sunk"> SUNK!</span>, </span>
+                 
+                  </td>
                   <td>{{turn.left}} </td>
                 </tr>
               </template>
@@ -120,8 +125,8 @@
 
     </main>
     <footer class="footer mt-auto py-3 bg-dark">
-      <div class="container center">
-        <span class="text-muted">Salvo Game | Branko Haberkon | &copy; 2019 </span>
+      <div class="container text-center">
+        <span class="text-muted text-center">Salvo Game | Branko Haberkon | &copy; 2019 </span>
       </div>
     </footer>
   </div>

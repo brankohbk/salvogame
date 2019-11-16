@@ -164,6 +164,25 @@ public class SalvoController {
                                 )
                                 .collect(Collectors.toList())
         );
+
+        List<String> opponentShipsLocations = findOpponent(gamePlayer.getId())
+                .getShips()
+                .stream()
+                .flatMap(ship -> ship.getShipLocations().stream())
+                .collect(Collectors.toList());
+        System.out.println("Opponent ships: "+opponentShipsLocations);
+
+        List<String> hits= gamePlayer.getSalvoes()
+                .stream()
+                .flatMap(salvo -> salvo.getSalvoLocations().stream())
+                .filter(loc -> opponentShipsLocations.contains(loc))
+                .collect(Collectors.toList());
+            System.out.println("Hits: "+hits);
+
+
+
+
+
             return new ResponseEntity<>(makeMap("data", dto), HttpStatus.OK);
     }
         else {
