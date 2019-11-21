@@ -136,7 +136,14 @@ public class SalvoController {
                                                         Authentication authentication){
         GamePlayer gamePlayer = gamePlayerRepository.findById(nn).get();
         Player player = playerRepository.findByUserName(authentication.getName());
-        if(gamePlayer.getPlayer()==player){
+        if(gamePlayer.getPlayer()!=player){
+            return new ResponseEntity<>(makeMap("error", "Not your game view... ¬¬ whatcha trynna do, dude?"), HttpStatus.UNAUTHORIZED);
+    }
+        Map<String,Object> hits= new LinkedHashMap<>();
+
+        hits.put("self",getHits(gamePlayer));
+        hits.put("opponent",getHits(findOpponent(gamePlayer.getId())));
+
         Map<String,Object> dto = new LinkedHashMap<>();
         dto.put("id", gamePlayer.getGame().getId());
         dto.put("created",gamePlayer.getGame().getCreationDate());
@@ -165,30 +172,14 @@ public class SalvoController {
                                 .collect(Collectors.toList())
         );
 
-        List<String> opponentShipsLocations = findOpponent(gamePlayer.getId())
-                .getShips()
-                .stream()
-                .flatMap(ship -> ship.getShipLocations().stream())
-                .collect(Collectors.toList());
-        System.out.println("Opponent ships: "+opponentShipsLocations);
+        dto.put("hits",hits);
 
-        List<String> hits= gamePlayer.getSalvoes()
-                .stream()
-                .flatMap(salvo -> salvo.getSalvoLocations().stream())
-                .filter(loc -> opponentShipsLocations.contains(loc))
-                .collect(Collectors.toList());
-            System.out.println("Hits: "+hits);
-
-
-
+//        opponentShipsLocations(gamePlayer);
+//        hits(gamePlayer);
 
 
             return new ResponseEntity<>(makeMap("data", dto), HttpStatus.OK);
-    }
-        else {
 
-            return new ResponseEntity<>(makeMap("error", "Not your game view... ¬¬ whatcha trynna do, dude?"), HttpStatus.UNAUTHORIZED);
-        }
 
     }
 
@@ -218,20 +209,21 @@ public class SalvoController {
         }
         GamePlayer gamePlayer = gamePlayerRepository.findById(id).get();
         Player player = playerRepository.findByUserName(authentication.getName());
-        if(gamePlayer.getPlayer()==player){
-            Map<String,Object> dto = new LinkedHashMap<>();
-            dto.put("ships",
-                    gamePlayer.getShips()
-                            .stream()
-                            .sorted(Comparator.comparingLong(Ship::getId))
-                            .map(ship -> ship.ShipDTO())
-                            .collect(Collectors.toList())
-            );
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        }
-        else {
+
+        if(gamePlayer.getPlayer()!=player){
             return new ResponseEntity<>(makeMap("error", "Not your game view... ¬¬"), HttpStatus.UNAUTHORIZED);
         }
+
+        Map<String,Object> dto = new LinkedHashMap<>();
+        dto.put("ships",
+                gamePlayer.getShips()
+                        .stream()
+                        .sorted(Comparator.comparingLong(Ship::getId))
+                        .map(ship -> ship.ShipDTO())
+                        .collect(Collectors.toList())
+        );
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+
     }
 
     //*************************** GUARDA LOS BARCOS DE UN GAMEPLAYER ***************************
@@ -392,6 +384,62 @@ public class SalvoController {
         return opponent;
     }
 
+    //AVERIGUA LAS POSICIONES DE BARCOS ENEMIGOS
+/*    List<String> opponentShipsLocations (GamePlayer gamePlayer){
+        List<String> data=
+                findOpponent(gamePlayer.getId())
+                    .getShips()
+                    .stream()
+                    .flatMap(ship -> ship.getShipLocations().stream())
+                    .collect(Collectors.toList());
+        //System.out.println("Opponent ships: "+data);
+        return data;
+    }
+
+    //BUSCA COINCIDENCIAS DE BARCOS ENEMIGOS Y SALVOS PROPIOS
+    List<String> hits(GamePlayer gamePlayer){
+        List<String> data=
+                gamePlayer.getSalvoes()
+                        .stream()
+                        .flatMap(salvo -> salvo.getSalvoLocations()
+                                .stream())
+                        .filter(loc -> opponentShipsLocations(gamePlayer).contains(loc))
+                        .collect(Collectors.toList());
+            System.out.println("Hits: "+data);
+            return data;
+    }*/
+
+    private List<Map> getHits(GamePlayer  self){
+        List<String>  destroyerLocations = new ArrayList<>();// debemos crear una list por cada tipo de barco
+        List<String>  submarineLocations = new ArrayList<>();// debemos crear una list por cada tipo de barco
+        List<String>  patrolBoatLocations = new ArrayList<>();// debemos crear una list por cada tipo de barco
+        List<String>  battleShipLocations = new ArrayList<>();// debemos crear una list por cada tipo de barco
+        List<String>  aircraftCarrierLocations = new ArrayList<>();// debemos crear una list por cada tipo de barco
+
+        for (Ship ship: self.getShips()) {
+            switch (ship.getShipType()){
+                case "destroyer":  { destroyerLocations.addAll(ship.getShipLocations());}
+                break;
+                case "submarine":  { submarineLocations.addAll(ship.getShipLocations());}
+                break;
+                case "patrolBoat":  { patrolBoatLocations.addAll(ship.getShipLocations());}
+                break;
+                case "battleShip":  { battleShipLocations.addAll(ship.getShipLocations());}
+                break;
+                case "aircraftCarrier":  { aircraftCarrierLocations.addAll(ship.getShipLocations());}
+                break;
+            }
+        }
+        List<Map> data = new LinkedList<>();
+        data.add(makeMap("destroyer",destroyerLocations));
+        data.add(makeMap("submarine",submarineLocations));
+        data.add(makeMap("patrolBoat",patrolBoatLocations));
+        data.add(makeMap("battleShip",battleShipLocations));
+        data.add(makeMap("aircraftCarrier",aircraftCarrierLocations));
+
+
+        return data;
+    }
 
 
 

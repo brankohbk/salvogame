@@ -114,11 +114,11 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
 
         //SHIPS
         //Ship TYPES
-        String destroyerType = "Destroyer";
-        String submarineType ="Submarine";
-        String patrolType="Patrol Boat";
-        String battleshipType ="Battleship";
-        String aircraftCarrierType="Aircraft Carrier";
+        String destroyerType = "destroyer";
+        String submarineType ="submarine";
+        String patrolType="patrolBoat";
+        String battleshipType ="battleShip";
+        String aircraftCarrierType="aircraftCarrier";
 
 
         //Ship LOCATIONS
