@@ -371,7 +371,7 @@ public class SalvoController {
                 .mapToInt(salvo -> salvo.getTurn())
                 .max()
                 .orElse(0)
-//                .orElseThrow(NoSuchElementException::new)
+
                 ;
     }
 
@@ -385,7 +385,7 @@ public class SalvoController {
     }
 
     //AVERIGUA LAS POSICIONES DE BARCOS ENEMIGOS
-/*    List<String> opponentShipsLocations (GamePlayer gamePlayer){
+    List<String> opponentShipsLocations (GamePlayer gamePlayer){
         List<String> data=
                 findOpponent(gamePlayer.getId())
                     .getShips()
@@ -396,8 +396,15 @@ public class SalvoController {
         return data;
     }
 
+    private List<String> hitLocations(Salvo salvo) {
+       return salvo.getSalvoLocations()
+               .stream()
+               .filter(loc -> opponentShipsLocations(salvo.getGamePlayer()).contains(loc))
+               .collect(Collectors.toList());
+    }
+
     //BUSCA COINCIDENCIAS DE BARCOS ENEMIGOS Y SALVOS PROPIOS
-    List<String> hits(GamePlayer gamePlayer){
+   /* List<String> hits(GamePlayer gamePlayer){
         List<String> data=
                 gamePlayer.getSalvoes()
                         .stream()
@@ -407,6 +414,8 @@ public class SalvoController {
                         .collect(Collectors.toList());
             System.out.println("Hits: "+data);
             return data;
+    }
+
     }*/
 
     private List<Map> getHits(GamePlayer  self){
@@ -430,12 +439,37 @@ public class SalvoController {
                 break;
             }
         }
-        List<Map> data = new LinkedList<>();
-        data.add(makeMap("destroyer",destroyerLocations));
-        data.add(makeMap("submarine",submarineLocations));
-        data.add(makeMap("patrolBoat",patrolBoatLocations));
-        data.add(makeMap("battleShip",battleShipLocations));
-        data.add(makeMap("aircraftCarrier",aircraftCarrierLocations));
+        //DAÑOS A LOS BARCOS
+       Map damages = new LinkedHashMap();
+
+
+        //INFORMACION DE TODOS LOS TURNOS
+       List<Map> data= new LinkedList<>();
+
+       //ITERA LOS SALVOS PARA CONTAR LOS HITS
+       self.getSalvoes()
+                .stream()
+                .sorted(Comparator.comparingInt(Salvo::getTurn))
+                .forEachOrdered(salvo ->{
+                    //INFORMACION DE CADA TURNO
+                    Map thisTurn = new LinkedHashMap();
+
+                    //TODO Cambiar estas funciones por metodos que calculen los daños a cada barco
+                    damages.put("destroyer",destroyerLocations);
+                    damages.put("submarine",submarineLocations);
+                    damages.put("patrolBoat",patrolBoatLocations);
+                    damages.put("battleShip",battleShipLocations);
+                    damages.put("aircraftCarrier",aircraftCarrierLocations);
+
+                    thisTurn.put("turn", salvo.getTurn());
+                    thisTurn.put("hitLocations", hitLocations(salvo));
+                    thisTurn.put("damages",damages);
+                    data.add(thisTurn);
+                        }
+                )
+        ;
+
+
 
 
         return data;
