@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Array;
+import java.security.cert.CollectionCertStoreParameters;
 import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -142,7 +143,7 @@ public class SalvoController {
         Map<String,Object> hits= new LinkedHashMap<>();
 
         hits.put("self",getHits(gamePlayer));
-        hits.put("opponent",getHits(findOpponent(gamePlayer.getId())));
+        hits.put("opponent",getHits(findOpponent(gamePlayer)));
 
         Map<String,Object> dto = new LinkedHashMap<>();
         dto.put("id", gamePlayer.getGame().getId());
@@ -283,7 +284,8 @@ public class SalvoController {
         if (gamePlayerRepository.findById(gpId).orElse(null)==null){
             return new ResponseEntity<>(makeMap("error", "You don't have any game yet. Please, create a new game."), HttpStatus.PRECONDITION_REQUIRED);
         }
-        GamePlayer opponent=findOpponent(gpId);
+        GamePlayer self = gamePlayerRepository.findById(gpId).get();
+        GamePlayer opponent=findOpponent(self);
         if (opponent==null){
             return new ResponseEntity<>(makeMap("error", "You don't have any opponent yet."), HttpStatus.PRECONDITION_REQUIRED);
         }
@@ -324,7 +326,7 @@ public class SalvoController {
 
         //*********** VERIFICA QUE NO SE HAYAN TIRADO TIROS ESTE TURNO
         int lastTurn=lastTurn(gamePlayer);
-        GamePlayer opponent = findOpponent(gamePlayer.getId());
+        GamePlayer opponent = findOpponent(gamePlayer);
         if(opponent!=null){
             //*********** VERIFICA QUE EXISTA UN OPONENTE
             int opponentLastTurn=lastTurn(opponent);
@@ -375,8 +377,9 @@ public class SalvoController {
                 ;
     }
 
-    private GamePlayer findOpponent(Long gpId){
-        GamePlayer currentPlayer, opponent;
+    private GamePlayer findOpponent(GamePlayer currentPlayer){
+        Long gpId = currentPlayer.getId();
+        GamePlayer opponent;
         currentPlayer= gamePlayerRepository.findById(gpId).orElse(null);
         opponent=currentPlayer.getGame().getGamePlayers()
                 .stream()
@@ -387,12 +390,12 @@ public class SalvoController {
     //AVERIGUA LAS POSICIONES DE BARCOS ENEMIGOS
     List<String> opponentShipsLocations (GamePlayer gamePlayer){
         List<String> data=
-                findOpponent(gamePlayer.getId())
+                findOpponent(gamePlayer)
                     .getShips()
                     .stream()
                     .flatMap(ship -> ship.getShipLocations().stream())
-                    .collect(Collectors.toList());
-        //System.out.println("Opponent ships: "+data);
+                    .collect(Collectors.toList())
+                ;
         return data;
     }
 
@@ -419,11 +422,21 @@ public class SalvoController {
     }*/
 
     private List<Map> getHits(GamePlayer  self){
-        List<String>  destroyerLocations = new ArrayList<>();// debemos crear una list por cada tipo de barco
-        List<String>  submarineLocations = new ArrayList<>();// debemos crear una list por cada tipo de barco
-        List<String>  patrolBoatLocations = new ArrayList<>();// debemos crear una list por cada tipo de barco
-        List<String>  battleShipLocations = new ArrayList<>();// debemos crear una list por cada tipo de barco
-        List<String>  aircraftCarrierLocations = new ArrayList<>();// debemos crear una list por cada tipo de barco
+        //INFORMACION DE TODOS LOS TURNOS
+        List<Map> data= new LinkedList<>();
+
+        GamePlayer opponent=findOpponent(self);
+        if (opponent==null){
+            data.add(makeMap("error", "You don't have any opponent yet."));
+            return data;
+        }
+
+
+        List<String>  destroyerLocations = new ArrayList<>();
+        List<String>  submarineLocations = new ArrayList<>();
+        List<String>  patrolBoatLocations = new ArrayList<>();
+        List<String>  battleShipLocations = new ArrayList<>();
+        List<String>  aircraftCarrierLocations = new ArrayList<>();
 
         for (Ship ship: self.getShips()) {
             switch (ship.getShipType()){
@@ -439,39 +452,37 @@ public class SalvoController {
                 break;
             }
         }
-        //DAÑOS A LOS BARCOS
-       Map damages = new LinkedHashMap();
-
-
-        //INFORMACION DE TODOS LOS TURNOS
-       List<Map> data= new LinkedList<>();
 
        //ITERA LOS SALVOS PARA CONTAR LOS HITS
-       self.getSalvoes()
+       opponent.getSalvoes()
                 .stream()
                 .sorted(Comparator.comparingInt(Salvo::getTurn))
                 .forEachOrdered(salvo ->{
                     //INFORMACION DE CADA TURNO
                     Map thisTurn = new LinkedHashMap();
+                    //DAÑOS A LOS BARCOS
+                    Map damages = new LinkedHashMap();
 
                     //TODO Cambiar estas funciones por metodos que calculen los daños a cada barco
-                    damages.put("destroyer",destroyerLocations);
+                    damages.put("destroyer",
+                            hitLocations(salvo)
+                                    .stream()
+                                    .filter(loc -> destroyerLocations.contains(loc))
+                                    .collect(Collectors.toList()));
+
+                    damages.put("destroyerLocation",destroyerLocations);
                     damages.put("submarine",submarineLocations);
                     damages.put("patrolBoat",patrolBoatLocations);
                     damages.put("battleShip",battleShipLocations);
                     damages.put("aircraftCarrier",aircraftCarrierLocations);
 
                     thisTurn.put("turn", salvo.getTurn());
+                    thisTurn.put("salvolocations", salvo.getSalvoLocations());
                     thisTurn.put("hitLocations", hitLocations(salvo));
                     thisTurn.put("damages",damages);
                     data.add(thisTurn);
                         }
-                )
-        ;
-
-
-
-
+                );
         return data;
     }
 
