@@ -141,6 +141,7 @@ public class SalvoController {
 
         Map<String,Object> dto = new LinkedHashMap<>();
         dto.put("id", gamePlayer.getGame().getId());
+        dto.put("state",getState(gamePlayer));
         dto.put("created",gamePlayer.getGame().getCreationDate());
         dto.put("gamePlayers", gamePlayer.getGame().getGamePlayers()
                         .stream()
@@ -174,6 +175,7 @@ public class SalvoController {
             hits.put("opponent",getHits(opponent));
             dto.put("hits",hits);
         }
+
 
             return new ResponseEntity<>(makeMap("data", dto), HttpStatus.OK);
 
@@ -476,6 +478,37 @@ public class SalvoController {
                         }
                 );
         return data;
+    }
+
+    private String getState(GamePlayer self){
+        String state = "new String()";
+
+        //AVERIGUA SI ESTAN COLOCADOS LOS BARCOS
+        if (self.getShips().size()==0){return "placeShips";}
+
+        //AVERIGUA SI EL JUEGO TERMINÓ
+        //TODO comparar salvos de self con los ships
+        state = self
+                .getSalvoes()
+                .stream()
+                .flatMap(salvo -> salvo.getSalvoLocations().stream())
+                .sorted()
+                .collect(Collectors.toList())
+                .toString();
+        state= state + "//"+
+                findOpponent(self)
+                        .getShips()
+                        .stream()
+                        .flatMap(ship -> ship.getShipLocations().stream())
+                        .sorted()
+                        .collect(Collectors.toList())
+                        .toString();
+
+
+
+
+
+        return state;
     }
 
 
