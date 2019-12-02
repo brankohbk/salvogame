@@ -12,6 +12,7 @@ public class Game {
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
     private Date creationDate;
+    private Date finishDate;
 
     @OneToMany(mappedBy="game", fetch= FetchType.EAGER)
     Set<GamePlayer> gamePlayers;
@@ -35,6 +36,14 @@ public class Game {
 
     public long getId() {
         return id;
+    }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
     }
 
     public Set<GamePlayer> getGamePlayers() {

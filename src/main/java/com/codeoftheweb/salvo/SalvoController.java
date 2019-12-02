@@ -141,7 +141,7 @@ public class SalvoController {
 
         Map<String,Object> dto = new LinkedHashMap<>();
         dto.put("id", gamePlayer.getGame().getId());
-        dto.put("state",getState(gamePlayer));
+        dto.put("gameState",getGameState(gamePlayer));
         dto.put("created",gamePlayer.getGame().getCreationDate());
         dto.put("gamePlayers", gamePlayer.getGame().getGamePlayers()
                         .stream()
@@ -389,18 +389,31 @@ public class SalvoController {
     List<String> opponentShipsLocations (GamePlayer gamePlayer){
         List<String> data=
                 findOpponent(gamePlayer)
-                    .getShips()
-                    .stream()
-                    .flatMap(ship -> ship.getShipLocations().stream())
-                    .collect(Collectors.toList())
+                        .getShips()
+                        .stream()
+                        .flatMap(ship -> ship.getShipLocations().stream())
+                        .sorted()
+                        .collect(Collectors.toList())
                 ;
         return data;
+    }
+    private boolean isWinner(GamePlayer self){
+        List<String> allHits = self
+                .getSalvoes()
+                .stream().flatMap(salvo -> hitLocations(salvo).stream())
+                .sorted()
+                .collect(Collectors.toList());
+
+        if(opponentShipsLocations(self).equals(allHits)){return true;}
+        return false;
+
     }
 
     private List<String> hitLocations(Salvo salvo) {
        return salvo.getSalvoLocations()
                .stream()
                .filter(loc -> opponentShipsLocations(salvo.getGamePlayer()).contains(loc))
+               .sorted()
                .collect(Collectors.toList());
     }
 
@@ -409,7 +422,6 @@ public class SalvoController {
                .stream()
                .filter(loc -> shipLocations.contains(loc)).count();
    }
-
 
 
     private List<Map<String,Object>> getHits(GamePlayer  self){
@@ -480,36 +492,23 @@ public class SalvoController {
         return data;
     }
 
-    private String getState(GamePlayer self){
-        String state = "new String()";
+    private String getGameState(GamePlayer self){
 
         //AVERIGUA SI ESTAN COLOCADOS LOS BARCOS
         if (self.getShips().size()==0){return "placeShips";}
 
         //AVERIGUA SI EL JUEGO TERMINÓ
-        //TODO comparar salvos de self con los ships
-        state = self
-                .getSalvoes()
-                .stream()
-                .flatMap(salvo -> salvo.getSalvoLocations().stream())
-                .sorted()
-                .collect(Collectors.toList())
-                .toString();
-        state= state + "//"+
-                findOpponent(self)
-                        .getShips()
-                        .stream()
-                        .flatMap(ship -> ship.getShipLocations().stream())
-                        .sorted()
-                        .collect(Collectors.toList())
-                        .toString();
+        if (isWinner(self) && isWinner(findOpponent(self))){return "tie";}
+        if (isWinner(self)){return "won";}
+        if (isWinner(findOpponent(self))){return "lost";}
 
+        //AVERIGUA SI MI ULTIMO TURNO ES MENOR AL DEL ENEMIGO
 
+        if (lastTurn(self) <= lastTurn(findOpponent(self))) { return "fireSalvo";};
 
-
-
-        return state;
+        return "wait";
     }
+
 
 
 
