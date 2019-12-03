@@ -66,6 +66,7 @@ public class Game {
         dto.put("id",this.getId());
         dto.put("created",this.getCreationDate());
         dto.put("players", getGamePlayersList(this.getGamePlayers()));
+        dto.put("scores",getScoresList(this.getScores()));
         return dto;
     }
 
@@ -74,6 +75,14 @@ public class Game {
                 .stream()
                 .sorted(Comparator.comparingLong(GamePlayer::getId))
                 .map(GamePlayer -> GamePlayer.makeGamePlayerDTO())
+                .collect(Collectors.toList());
+    }
+
+    public List<Map<String,Object>> getScoresList(Set<Score> scores){
+        return scores
+                .stream()
+                .sorted(Comparator.comparingLong(Score::getId))
+                .map(score -> score.scoreDTO())
                 .collect(Collectors.toList());
     }
 

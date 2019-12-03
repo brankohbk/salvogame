@@ -51,6 +51,16 @@
   animation: backgroundSlide 3s infinite;
 }
 
+@keyframes rotate {
+  0%,
+  100% {
+    transform: rotateZ(180deg);
+  }
+  50% {
+    transform: rotateZ(0deg);
+  }
+}
+
 @keyframes backgroundSlide {
   50% {
     background-position: -100%;
