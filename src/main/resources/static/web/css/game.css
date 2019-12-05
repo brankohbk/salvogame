@@ -44,6 +44,7 @@
   background: #b4d455;
 }
 
+.bgslide,
 .sunk {
   background: linear-gradient(to right, transparent 50%, #b4d455 50%);
   background-position: 0;

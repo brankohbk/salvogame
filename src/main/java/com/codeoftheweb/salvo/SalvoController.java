@@ -31,6 +31,9 @@ public class SalvoController {
     @Autowired
     private SalvoRepository salvoRepository;
 
+    @Autowired
+    private ScoreRepository scoreRepository;
+
     String currentUser="";
 
 
@@ -344,10 +347,30 @@ public class SalvoController {
         salvo.setTurn(lastTurn + 1);
         salvoRepository.save(salvo);
 
+        //*********** AVERIGUA SI TERMINÓ EL JUEGO
+        if (isWinner(findOpponent(gamePlayer))){
+            if (isWinner(gamePlayer)){
+                //empate
+                Score selfScore =new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), "t", new Date());
+                Score opponentScore =new Score(opponent.getGame(), opponent.getPlayer(), "t", new Date());
+                scoreRepository.saveAll(Arrays.asList(selfScore,opponentScore));
+
+            }else{
+                //perdio
+                Score selfScore =new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), "l", new Date());
+                Score opponentScore =new Score(opponent.getGame(), opponent.getPlayer(), "w", new Date());
+                scoreRepository.saveAll(Arrays.asList(selfScore,opponentScore));
+            }
+        }else if (isWinner(gamePlayer)){
+            //gano
+            Score selfScore =new Score(gamePlayer.getGame(), gamePlayer.getPlayer(), "w", new Date());
+            Score opponentScore =new Score(opponent.getGame(), opponent.getPlayer(), "l", new Date());
+            scoreRepository.saveAll(Arrays.asList(selfScore,opponentScore));
+        }
+
+
         return new ResponseEntity<>(makeMap("success","Salvos saved."), HttpStatus.CREATED);
     }
-
-
 
 
     //*************************** FUNCIONES AUXILIARES ***************************
@@ -496,6 +519,9 @@ public class SalvoController {
 
         //AVERIGUA SI ESTAN COLOCADOS LOS BARCOS
         if (self.getShips().size()==0){return "placeShips";}
+
+        //AVERIGUA SI NO EXISTE EL OPONENTE
+        if(findOpponent(self)==null){return "waitingOpponent";}
 
         //AVERIGUA SI EL JUEGO TERMINÓ
         if (isWinner(self) && isWinner(findOpponent(self))){return "tie";}

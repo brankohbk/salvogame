@@ -153,7 +153,7 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         Ship ship19=new Ship(patrolType,gp9,l6);
         Ship ship20=new Ship(submarineType,gp10,l7);
         Ship ship21=new Ship(patrolType,gp10,l8);
-        Ship ship22=new Ship(destroyerType,gp11,l4);
+        Ship ship22=new Ship(destroyerType,gp12,l4);
         Ship ship23=new Ship(patrolType,gp11,l6);
         Ship ship24=new Ship(destroyerType,gp13,l4);
         Ship ship25=new Ship(patrolType,gp13,l6);

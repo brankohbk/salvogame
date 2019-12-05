@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/game.css">
   <link rel="stylesheet" href="css/fontawesome.min.css">
   <title>Salvo Game</title>
 </head>
+
 
 <body>
   <div id="app">
@@ -77,6 +78,7 @@
     </nav>
     <main class="container-fluid d-flex justify-content-between col-9 p-5 mt-3">
 
+
       <div class="col-5">
         <ol class="list-group list-group-flush">
           <template v-for='game in gamesList.games'>
@@ -85,14 +87,28 @@
               <p>
                 Game #<span>{{game.id}}</span>
               </p>
-                <p>
+              <p>
                   Game created: {{formatDate(game.created)}} 
                 </p> 
                 <p>              
-              Players: <span v-for='player in game.players'> {{player.name}}, </span>
-            </p>
-            <button v-show="joinButton(game)" @click="joinGame(game.id)" class="btn btn-outline-warning">JOIN GAME</button>
-            <button v-show="reEnterButton(game)" @click="enterGame(game.id)" class="btn btn-outline-success">Back to game</button>
+                  Players:
+                  <ul>
+
+                    <li v-for='player in game.players'> {{player.name}}</li>
+                  </ul>
+                </p>
+                <p v-for="score in game.scores" >
+                  <span v-if="score.score=='w'" class="bgslide"> Winner:
+                    <span v-for="player in leaderboard.players" v-if="player.id==score.playerID">
+                      {{player.name}}
+                    </span>
+                  </span>
+                </p>
+            
+                <p v-if="game.scores.length == 0">
+                  <button v-show="joinButton(game)" @click="joinGame(game.id)" class="btn btn-outline-warning">JOIN GAME</button>
+                  <button v-show="reEnterButton(game)" @click="enterGame(game.id)" class="btn btn-outline-success">Back to game</button>
+                </p>
           </li>
         </template>
         </ol>
