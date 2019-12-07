@@ -1,3 +1,21 @@
+var game = new Vue({
+  el: "#game",
+  data: {
+    gameData: {},
+    turns: [
+      { "turn": 1, "hitted": [{ shipType: "Patrol", hits: 1, sunk: false }, { shipType: "destroyer", hits: 1, sunk: false }], "left": 3 },
+      { "turn": 2, "hitted": [{ shipType: "Patrol", hits: 1, sunk: true }], "left": 2 },
+      { "turn": 3, "hitted": [{ shipType: "destroyer", hits: 1, sunk: false }], "left": 2 },
+      { "turn": 4, "hitted": [{ shipType: "destroyer", hits: 1, sunk: true }], "left": 1 },
+    ],
+  },
+  methods: {},
+  computed: {}
+});
+
+
+
+
 var letras = ["", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
 var currentPlayer = {};
 var oponent = {};
@@ -104,7 +122,11 @@ function fetchShips() {
         showShips(json);
         mySalvoes(json);
         enemySalvoes(json);
-        outSalvoes = json.salvoes;
+        game.gameData = json;
+        if (game.gameData.gameState == 'placeShips') {
+          $('#placeShipsModal').modal('show');
+          $('.grid-stack').gridstack();
+        }
       })
     })
     .fail(function(data) {
@@ -117,17 +139,3 @@ function fetchShips() {
 
 
 fetchShips();
-
-
-var game = new Vue({
-  el: "#game",
-  data: {
-    turns: [
-      { "turn": 1, "hitted": [{ shipType: "Patrol", hits: 1, sunk: false }, { shipType: "destroyer", hits: 1, sunk: false }], "left": 3 },
-      { "turn": 2, "hitted": [{ shipType: "Patrol", hits: 1, sunk: true }], "left": 2 },
-      { "turn": 3, "hitted": [{ shipType: "destroyer", hits: 1, sunk: false }], "left": 2 },
-      { "turn": 4, "hitted": [{ shipType: "destroyer", hits: 1, sunk: true }], "left": 1 },
-    ],
-  },
-  methods: {},
-});

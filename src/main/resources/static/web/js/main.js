@@ -1,4 +1,4 @@
-var app = new Vue({
+var main = new Vue({
   el: "#app",
   data: {
     gamesList: [],
@@ -7,6 +7,9 @@ var app = new Vue({
     signupForm: false,
   },
   methods: {
+    goto: function(url) {
+      window.location = url;
+    },
     formatDate: function(created) {
       let input = new Date(created)
       let formated = input.toLocaleString();
@@ -36,7 +39,7 @@ var app = new Vue({
       }
       $.post("/api/players", { user, pass })
         .done(function() {
-          app.login(user, pass)
+          main.login(user, pass)
         })
     },
     createGame: function() {
@@ -62,7 +65,7 @@ var app = new Vue({
       var playersInGame = 0;
       juego.players.forEach(player => {
         playersInGame++;
-        if (player.name == app.currentUser) {
+        if (player.name == main.currentUser) {
           containsPlayer = true;
         }
       });
@@ -75,7 +78,7 @@ var app = new Vue({
     enterGame: function(game) {
       $.get("/api/games/" + game + "/players")
         .done(function(data) {
-          var filtered = data.players.filter(player => player.name == app.currentUser);
+          var filtered = data.players.filter(player => player.name == main.currentUser);
           window.location = "/web/game.html?gp=" + filtered[0].gpid;
         })
         .fail(function(data) {
@@ -85,7 +88,7 @@ var app = new Vue({
     reEnterButton: function(juego) {
       var containsPlayer = false;
       juego.players.forEach(player => {
-        if (player.name == app.currentUser) {
+        if (player.name == main.currentUser) {
           containsPlayer = true;
         }
       });
@@ -167,8 +170,8 @@ function fetchMyData(url, headers, dataHolder) {
   promise
     .then(response => response.json())
     .then(myJson => {
-      app[dataHolder] = myJson;
-      if (dataHolder == "gamesList") { app.currentUser = myJson.player.name ? myJson.player.name : myJson.player; }
+      main[dataHolder] = myJson;
+      if (dataHolder == "gamesList") { main.currentUser = myJson.player.name ? myJson.player.name : myJson.player; }
     })
     .catch(err => { alert(`Couldn't retrieve info. please, check this error: ${err}`) });
 }

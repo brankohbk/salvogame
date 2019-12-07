@@ -100,10 +100,11 @@
                 <p v-for="score in game.scores" >
                   <span v-if="score.score=='w'" class="bgslide"> Winner:
                     <span v-for="player in leaderboard.players" v-if="player.id==score.playerID">
-                      {{player.name}}
+                      {{player.name}}                      
                     </span>
                   </span>
                 </p>
+                
             
                 <p v-if="game.scores.length == 0">
                   <button v-show="joinButton(game)" @click="joinGame(game.id)" class="btn btn-outline-warning">JOIN GAME</button>

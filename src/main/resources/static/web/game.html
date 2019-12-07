@@ -6,6 +6,7 @@
   <title>Salvo Game</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/fontawesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@0.5.5/dist/gridstack.min.css" />
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/game.css">
 </head>
@@ -95,6 +96,32 @@
         </div>
       </div>
 
+      <!-- Modal -->
+      <div class="modal fade" id="placeShipsModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="placeShipsModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="placeShipsModalLabel">Place your ships!</h5>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="grid-stack">
+                <div class="grid-stack-item border" data-gs-x="0" data-gs-y="0" data-gs-width="4" data-gs-height="1">
+                  <div class="grid-stack-item-content">my first widget</div>
+                </div>
+                <div class="grid-stack-item border" data-gs-x="4" data-gs-y="0" data-gs-width="3" data-gs-height="1">
+                  <div class="grid-stack-item-content">another widget!</div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button @click="main.goto('games.html')" type="button" class="btn btn-outline-secondary">Fall back <i class="fas fa-peace"></i> </button>
+              <button type="button" class="btn btn-success">Prepare for battle! <i class="fas fa-bomb"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row mt-3">
         <div class="col-12">
           <table class="table table-condensed table-hover">
@@ -110,7 +137,6 @@
                   <td>{{turn.turn}} </td>
                   <td>
                   
-
                     <span v-for="hit in turn.hitted">{{hit.shipType}} hitted {{hit.hits}} times <span class="sunk" v-if="hit.sunk"> SUNK!</span>, </span>
                  
                   </td>
@@ -134,8 +160,10 @@
   <script src="js/vue.min.js"></script>
   <script src="js/jquery-3.4.1.js"></script>
   <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gridstack@0.5.5/dist/gridstack.all.js"></script>
   <script src="js/main.js"></script>
   <script src="js/game.js"></script>
+
 </body>
 
 </html>

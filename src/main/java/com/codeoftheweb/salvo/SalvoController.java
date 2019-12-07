@@ -131,7 +131,7 @@ public class SalvoController {
     }
 
     //*************************** TRAER POSICIONES DE BARCOS Y SALVOS ***************************
-    @RequestMapping("/game_view/{nn}")
+    @RequestMapping(path="/game_view/{nn}")
     public ResponseEntity<Map<String,Object>> getGameViewByGamePlayerId(@PathVariable Long nn,
                                                         Authentication authentication){
         GamePlayer gamePlayer = gamePlayerRepository.findById(nn).get();
