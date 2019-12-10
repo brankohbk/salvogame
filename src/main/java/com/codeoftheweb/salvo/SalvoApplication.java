@@ -62,6 +62,7 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         Date time6 = Date.from(time5.toInstant().plusSeconds(3600));
         Date time7 = Date.from(time6.toInstant().plusSeconds(3600));
         Date time8 = Date.from(time7.toInstant().plusSeconds(3600));
+        Date time9 = Date.from(time8.toInstant().plusSeconds(3600));
         Game game1= new Game(now);
         Game game2= new Game(time2);
         Game game3= new Game(time3);
@@ -70,6 +71,7 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         Game game6= new Game(time6);
         Game game7= new Game(time7);
         Game game8= new Game(time8);
+        Game game9= new Game(time9);
         gameRepository.save(game1);
         gameRepository.save(game2);
         gameRepository.save(game3);
@@ -78,6 +80,7 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         gameRepository.save(game6);
         gameRepository.save(game7);
         gameRepository.save(game8);
+        gameRepository.save(game9);
 
 
          GamePlayer gp1 = new GamePlayer(now,jackBauer, game1);
@@ -93,7 +96,9 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
          GamePlayer gp11 = new GamePlayer(time6,kimBauer, game6);
          GamePlayer gp12 = new GamePlayer(time7,tonyAlmeida, game7);
          GamePlayer gp13 = new GamePlayer(time8,kimBauer, game8);
-         GamePlayer gp14 = new GamePlayer(time8,tonyAlmeida, game8);
+        GamePlayer gp14 = new GamePlayer(time8,tonyAlmeida, game8);
+        GamePlayer gp15 = new GamePlayer(time9,jackBauer, game9);
+        GamePlayer gp16 = new GamePlayer(time9,chloeOBrian, game9);
 
 
 
@@ -111,6 +116,8 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         gamePlayerRepository.save(gp12);
         gamePlayerRepository.save(gp13);
         gamePlayerRepository.save(gp14);
+        gamePlayerRepository.save(gp15);
+        gamePlayerRepository.save(gp16);
 
         //SHIPS
         //Ship TYPES
@@ -159,11 +166,13 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         Ship ship25=new Ship(patrolType,gp13,l6);
         Ship ship26=new Ship(submarineType,gp14,l7);
         Ship ship27=new Ship(patrolType,gp14,l8);
+        Ship ship28=new Ship(destroyerType,gp15,l1);
+        Ship ship29=new Ship(submarineType,gp16,l2);
 
         //ADD SHIPS TO DATABASE
         shipRepository.saveAll(Arrays.asList(ship1,ship2,ship3,ship4,ship5,ship6,ship7,ship8,ship9,
                 ship10,ship11,ship12,ship13,ship14,ship15,ship16,ship17,ship18,ship19,
-                ship20,ship21,ship22,ship23,ship24,ship25,ship26,ship27));
+                ship20,ship21,ship22,ship23,ship24,ship25,ship26,ship27,ship28,ship29));
 
 
         //SALVO LOCATIONS
@@ -189,6 +198,7 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         Set<String> sl19 = new HashSet<>(Arrays.asList("G6", "G7", "G8"));
         Set<String> sl20 = new HashSet<>(Arrays.asList("C6", "D6", "E6"));
         Set<String> sl21 = new HashSet<>(Arrays.asList("H1", "H8"));
+        Set<String> sl22 = new HashSet<>(Arrays.asList("E1","F1","G1"));
 
         //SALVO INSTANCES
 
@@ -213,10 +223,13 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         Salvo salvo19 = new Salvo(2,gp9,sl19);
         Salvo salvo20 = new Salvo(2,gp10,sl20);
         Salvo salvo21 = new Salvo(3,gp10,sl21);
+        Salvo salvo22 = new Salvo(1,gp15,sl22);
+        Salvo salvo23 = new Salvo(1,gp16,sl10);
+
 
         //ADD SALVOES TO DATABASE
         salvoRepository.saveAll(Arrays.asList(salvo1,salvo2,salvo3,salvo4,salvo5,salvo6,salvo7,salvo8,salvo9,
-                salvo10,salvo11,salvo12,salvo13,salvo14,salvo15,salvo16,salvo17,salvo18,salvo19,salvo20,salvo21));
+                salvo10,salvo11,salvo12,salvo13,salvo14,salvo15,salvo16,salvo17,salvo18,salvo19,salvo20,salvo21,salvo22,salvo23));
 
 
         //CREATE SCORES
@@ -228,6 +241,8 @@ public CommandLineRunner initData(PlayerRepository playerRepository,
         Score score6 =new Score(game3, tonyAlmeida, "l", Date.from(game3.getCreationDate().toInstant().plusSeconds(1800)));
         Score score7 =new Score(game4, chloeOBrian, "t", Date.from(game4.getCreationDate().toInstant().plusSeconds(1800)));
         Score score8 =new Score(game4, jackBauer, "t", Date.from(game4.getCreationDate().toInstant().plusSeconds(1800)));
+        Score score9 =new Score(game9, jackBauer, "t", Date.from(game4.getCreationDate().toInstant().plusSeconds(1800)));
+        Score score10 =new Score(game9, chloeOBrian, "t", Date.from(game4.getCreationDate().toInstant().plusSeconds(1800)));
 
         //ADD SCORES TO DATABASE
         scoreRepository.saveAll(Arrays.asList(score1,score2,score3,score4,score5,score6,score7,score8));

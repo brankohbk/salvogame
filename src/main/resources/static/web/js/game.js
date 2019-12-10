@@ -127,6 +127,15 @@ function fetchShips() {
           $('#placeShipsModal').modal('show');
           $('.grid-stack').gridstack();
         }
+        if (game.gameData.gameState == 'won') {
+          $('#wonModal').modal('show');
+        }
+        if (game.gameData.gameState == 'lost') {
+          $('#lostModal').modal('show');
+        }
+        if (game.gameData.gameState == 'tie') {
+          $('#tieModal').modal('show');
+        }
       })
     })
     .fail(function(data) {

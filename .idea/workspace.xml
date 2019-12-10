@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="503b96ed-54c4-4548-a7ed-aae890ce535b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/codeoftheweb/salvo/SalvoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codeoftheweb/salvo/SalvoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/codeoftheweb/salvo/SalvoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/codeoftheweb/salvo/SalvoApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/web/game.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/web/game.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/web/games.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/web/games.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/web/js/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/web/js/game.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/web/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/web/js/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,25 +207,26 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
-    <state width="1493" height="98" key="GridCell.Tab.0.bottom" timestamp="1575670971372">
+    <state width="1493" height="460" key="GridCell.Tab.0.bottom" timestamp="1575680635003">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="98" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1360.728@0.0.1536.824" timestamp="1575670971372" />
-    <state width="1493" height="98" key="GridCell.Tab.0.center" timestamp="1575670971371">
+    <state width="1493" height="460" key="GridCell.Tab.0.bottom/0.0.1536.824/1920.0.1360.728@0.0.1536.824" timestamp="1575680635003" />
+    <state width="1493" height="460" key="GridCell.Tab.0.center" timestamp="1575680635003">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="98" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1360.728@0.0.1536.824" timestamp="1575670971371" />
-    <state width="1493" height="98" key="GridCell.Tab.0.left" timestamp="1575670971370">
+    <state width="1493" height="460" key="GridCell.Tab.0.center/0.0.1536.824/1920.0.1360.728@0.0.1536.824" timestamp="1575680635003" />
+    <state width="1493" height="460" key="GridCell.Tab.0.left" timestamp="1575680635003">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="98" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1360.728@0.0.1536.824" timestamp="1575670971370" />
-    <state width="1493" height="98" key="GridCell.Tab.0.right" timestamp="1575670971371">
+    <state width="1493" height="460" key="GridCell.Tab.0.left/0.0.1536.824/1920.0.1360.728@0.0.1536.824" timestamp="1575680635003" />
+    <state width="1493" height="460" key="GridCell.Tab.0.right" timestamp="1575680635003">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="98" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1360.728@0.0.1536.824" timestamp="1575670971371" />
-    <state x="465" y="235" key="com.intellij.ide.util.TipDialog" timestamp="1575669195709">
+    <state width="1493" height="460" key="GridCell.Tab.0.right/0.0.1536.824/1920.0.1360.728@0.0.1536.824" timestamp="1575680635003" />
+    <state x="465" y="235" key="com.intellij.ide.util.TipDialog" timestamp="1575938144587">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="465" y="235" key="com.intellij.ide.util.TipDialog/0.0.1536.824/1920.0.1360.728@0.0.1536.824" timestamp="1575669195709" />
+    <state x="465" y="235" key="com.intellij.ide.util.TipDialog/0.0.1536.824/1920.0.1360.728@0.0.1536.824" timestamp="1575938144587" />
+    <state x="465" y="235" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1575682159236" />
   </component>
 </project>

@@ -101,8 +101,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="placeShipsModalLabel">Place your ships!</h5>
-              </button>
+              <h5 class="modal-title" id="placeShipsModalLabel">Place your ships! &#x1F6A2; </h5>
             </div>
             <div class="modal-body">
               <div class="grid-stack">
@@ -117,6 +116,76 @@
             <div class="modal-footer">
               <button @click="main.goto('games.html')" type="button" class="btn btn-outline-secondary">Fall back <i class="fas fa-peace"></i> </button>
               <button type="button" class="btn btn-success">Prepare for battle! <i class="fas fa-bomb"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="wonModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="placeShipsModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h5 class="modal-title" id="placeShipsModalLabel">CONGRATULATIONS! &#x1F451; </h5>
+
+            </div>
+            <div class="modal-body text-center">
+
+              <p><i class="fas fa-medal text-warning"></i> YOU HAVE WON THIS GAME! <i class="fas fa-medal text-warning"></i> </p>
+              <p>Go back and create another game</p>
+            </div>
+            <div class="modal-footer">
+              <button @click="main.goto('games.html')" type="button" class="btn btn-outline-success">Regroup to Main menu <i class="fas fa-compress-arrows-alt"></i> </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="lostModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="placeShipsModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h5 class="modal-title" id="placeShipsModalLabel">TEAM, FALL BACK! &#x1F525; </h5>
+            </div>
+            <div class="modal-body text-center">
+
+              <p><i class="fas fa-skull-crossbones text-danger"></i> The opponent was too fierce... We lost our battle. <i class="fas fa-skull-crossbones text-danger"></i></p>
+              <p>Go back and create another game</p>
+
+              <blockquote class="blockquote">
+                <p class="mb-0">"We'll get'em next time."</p>
+                <footer class="blockquote-footer">Cpt. Price <cite title="Source Title">COD MW</cite></footer>
+              </blockquote>
+
+
+            </div>
+            <div class="modal-footer">
+              <button @click="main.goto('games.html')" type="button" class="btn btn-outline-success">Regroup to Main menu <i class="fas fa-compress-arrows-alt"></i> </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="tieModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="placeShipsModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h5 class="modal-title" id="placeShipsModalLabel"> REGROUP AND STRIKE AGAIN &#x1F3E5; </h5>
+            </div>
+            <div class="modal-body text-center">
+
+              <p><i class="fas fa-user-injured text-primary"></i></i> The opponent was too fierce... </p>
+              <p>Go back and create another game</p>
+
+              <blockquote class="blockquote">
+                <p class="mb-0">"Can we call it a 'Phyrric victory'?"</p>
+                <footer class="blockquote-footer">Squee, Goblin King <cite title="Source Title">Magic: The Gathering</cite></footer>
+              </blockquote>
+            </div>
+            <div class="modal-footer">
+              <button @click="main.goto('games.html')" type="button" class="btn btn-outline-success">Regroup to Main menu <i class="fas fa-compress-arrows-alt"></i> </button>
             </div>
           </div>
         </div>
