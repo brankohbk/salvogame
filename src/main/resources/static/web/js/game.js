@@ -55,6 +55,8 @@ function createHtml(table, array) {
 //creo la grilla
 document.getElementById('myShips').innerHTML = createHtml("ships", letras);
 document.getElementById('mySalvoes').innerHTML = createHtml("salvoes", letras);
+document.getElementById('shipPlacement').innerHTML = createHtml("ships", letras);
+
 
 //funcion que me devuelve el objeto del parámetro de la url (del ebook)
 function paramObj(search) {

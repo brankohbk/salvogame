@@ -96,7 +96,7 @@
         </div>
       </div>
 
-      <!-- Modal -->
+      <!-- Modal PLACESHIPS-->
       <div class="modal fade" id="placeShipsModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="placeShipsModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -112,6 +112,9 @@
                   <div class="grid-stack-item-content">another widget!</div>
                 </div>
               </div>
+              <div>
+                <div id="shipPlacement" class=" grid-stack-animate ui-droppable border divTableBody"></div>
+              </div>
             </div>
             <div class="modal-footer">
               <button @click="main.goto('games.html')" type="button" class="btn btn-outline-secondary">Fall back <i class="fas fa-peace"></i> </button>
@@ -121,7 +124,7 @@
         </div>
       </div>
 
-      <!-- Modal -->
+      <!-- Modal WIN-->
       <div class="modal fade" id="wonModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="placeShipsModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -141,7 +144,7 @@
         </div>
       </div>
 
-      <!-- Modal -->
+      <!-- Modal LOST-->
       <div class="modal fade" id="lostModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="placeShipsModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -167,7 +170,7 @@
         </div>
       </div>
 
-      <!-- Modal -->
+      <!-- Modal TIE-->
       <div class="modal fade" id="tieModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="placeShipsModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
