@@ -102,19 +102,18 @@ public class Player {
     public float getTotalScore() {
         return getWins() * this.winScore + getDraws() * this.tieScore + getLosses() * this.lossScore;
     }
-    public String getScore(Game juego){
-        Optional<Score> optionalScore= this.getScores()
-                .stream()
-                .filter(score -> score.getGame().equals(juego))
-                .findFirst()
-                ;
-        if (optionalScore.isEmpty()){
-            return null;
-        }else{
-            return optionalScore.get().getScore();
-        }
-
-    }
+//    public String getScore(Game juego){
+//       String gameScore= this.getScores()
+//                .stream()
+//                .filter(score -> score.getGame().equals(juego))
+//                .findFirst()
+//               .get()
+//                .getScore();
+//        if (gameScore.isEmpty()){
+//            return null;
+//        }
+//        return gameScore;
+//    }
 
     public Map<String, Object> makePlayerScoreDTO() {
         Map<String, Object> dto = new LinkedHashMap<String, Object>();
